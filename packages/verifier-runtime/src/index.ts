@@ -1,38 +1,31 @@
+export type { NormalizeConstraints } from '@fresharena/faep-schema';
+export { normalize } from './normalize.js';
+export {
+  verify,
+  expectedHashFor,
+  type VerifyInput,
+  type VerifyResult,
+} from './verify.js';
+export { sha256Hex, sha256OfString, shortHash, stableStringify } from './crypto.js';
+
 export interface VerifierPackage {
   id: string;
   version: string;
-  referenceImplHash: string;
-  propertyTestsHash: string;
-  metamorphicTestsHash: string;
-  knownGoodHash: string;
-  knownBadHash: string;
-  environmentHash: string;
+  reference_impl_hash: string;
+  property_tests_hash: string;
+  metamorphic_tests_hash: string;
+  known_good_hash: string;
+  known_bad_hash: string;
+  environment_hash: string;
 }
 
-export interface VerifyInput {
-  taskId: string;
-  input: unknown;
-  output: unknown;
-  verifierPackage: VerifierPackage;
-}
-
-export interface VerifyResult {
-  passed: boolean;
-  resultHash: string;
-  failureReason?: string;
-  testPhase?: 'canonical' | 'hidden' | 'adversarial' | 'immunity';
-}
-
-export interface VerifierRuntime {
-  verify(input: VerifyInput): Promise<VerifyResult>;
-  runPropertyTests(taskId: string, solveFn: (input: unknown) => Promise<unknown>): Promise<VerifyResult[]>;
-  runDifferentialTests(
-    taskId: string,
-    solveFn: (input: unknown) => Promise<unknown>,
-    referenceFn: (input: unknown) => Promise<unknown>,
-  ): Promise<VerifyResult[]>;
-}
-
-export function createVerifierRuntime(_worldDir: string): VerifierRuntime {
-  throw new Error('createVerifierRuntime: not yet implemented');
-}
+export const VERIFIER_PACKAGE: Readonly<VerifierPackage> = {
+  id: 'json_transform_verifier',
+  version: '0.1.0',
+  reference_impl_hash: 'phase0-reference',
+  property_tests_hash: 'phase0-property',
+  metamorphic_tests_hash: 'phase0-metamorphic',
+  known_good_hash: 'phase0-known-good',
+  known_bad_hash: 'phase0-known-bad',
+  environment_hash: 'phase0-env',
+};

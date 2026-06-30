@@ -10,18 +10,6 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    },
-    "./task": {
-      "import": "./dist/task.js",
-      "types": "./dist/task.d.ts"
-    },
-    "./solver": {
-      "import": "./dist/solver.js",
-      "types": "./dist/solver.d.ts"
-    },
-    "./record": {
-      "import": "./dist/record.js",
-      "types": "./dist/record.d.ts"
     }
   },
   "files": ["dist", "schemas"],
