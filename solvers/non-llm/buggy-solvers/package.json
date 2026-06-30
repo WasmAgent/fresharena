@@ -1,0 +1,17 @@
+{
+  "name": "@fresharena/solver-buggy",
+  "version": "0.1.0",
+  "description": "Corpus of intentionally buggy solvers — validates that Tester finds counterexamples",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test ./src",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@fresharena/faep-schema": "workspace:*"
+  }
+}

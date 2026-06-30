@@ -1,0 +1,16 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "packages": [
+    "@fresharena/faep-schema",
+    "@fresharena/core",
+    "@fresharena/cli",
+    "@fresharena/verifier-runtime",
+    "@fresharena/reporter",
+    "@fresharena/solver-reference",
+    "@fresharena/solver-weak",
+    "@fresharena/solver-buggy",
+    "@fresharena/solver-openai",
+    "@fresharena/solver-anthropic",
+    "@fresharena/solver-local"
+  ]
+}

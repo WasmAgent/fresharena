@@ -1,0 +1,34 @@
+{
+  "name": "@fresharena/reporter",
+  "version": "0.1.0",
+  "description": "Report generator for FreshArena evaluation records",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test ./src",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@fresharena/core": "workspace:*",
+    "@fresharena/faep-schema": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WasmAgent/fresharena.git",
+    "directory": "packages/reporter"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "name": "@fresharena/core",
+  "version": "0.1.0",
+  "description": "FreshArena evaluation engine: runner, scorer, generator registry, tester registry",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./runner": {
+      "import": "./dist/runner/index.js",
+      "types": "./dist/runner/index.d.ts"
+    },
+    "./scorer": {
+      "import": "./dist/scorer/index.js",
+      "types": "./dist/scorer/index.d.ts"
+    },
+    "./generator": {
+      "import": "./dist/generator/index.js",
+      "types": "./dist/generator/index.d.ts"
+    },
+    "./tester": {
+      "import": "./dist/tester/index.js",
+      "types": "./dist/tester/index.d.ts"
+    },
+    "./replay": {
+      "import": "./dist/replay/index.js",
+      "types": "./dist/replay/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test ./src",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@fresharena/faep-schema": "workspace:*",
+    "zod": "^3.23.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WasmAgent/fresharena.git",
+    "directory": "packages/core"
+  }
+}

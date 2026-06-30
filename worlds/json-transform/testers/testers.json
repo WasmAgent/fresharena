@@ -1,0 +1,28 @@
+{
+  "testers": [
+    {
+      "id": "property-based-tester",
+      "strategy": "property-based",
+      "description": "Verifies idempotence, round-trip, and monotonicity properties via fast-check",
+      "version": "0.1.0"
+    },
+    {
+      "id": "metamorphic-tester",
+      "strategy": "metamorphic",
+      "description": "Checks that semantically equivalent inputs produce semantically equivalent outputs",
+      "version": "0.1.0"
+    },
+    {
+      "id": "differential-tester",
+      "strategy": "differential",
+      "description": "Compares solver output against reference implementation on generated inputs",
+      "version": "0.1.0"
+    },
+    {
+      "id": "boundary-tester",
+      "strategy": "boundary",
+      "description": "Tests edge cases: empty objects, null values, max-depth nesting, large arrays",
+      "version": "0.1.0"
+    }
+  ]
+}

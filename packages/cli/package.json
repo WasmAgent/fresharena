@@ -1,0 +1,32 @@
+{
+  "name": "@fresharena/cli",
+  "version": "0.1.0",
+  "description": "fresharena CLI — run, replay, verify, and report",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "fresharena": "./dist/main.js"
+  },
+  "main": "./dist/main.js",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test ./src",
+    "start": "bun run src/main.ts",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@fresharena/core": "workspace:*",
+    "@fresharena/faep-schema": "workspace:*",
+    "commander": "^12.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WasmAgent/fresharena.git",
+    "directory": "packages/cli"
+  }
+}

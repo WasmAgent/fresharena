@@ -1,0 +1,18 @@
+{
+  "name": "@fresharena/solver-reference",
+  "version": "0.1.0",
+  "description": "Reference solver for JSON Transform World — correct upper bound, no LLM",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test ./src",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@fresharena/faep-schema": "workspace:*"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "verifier_package": {
+    "id": "json_transform_verifier",
+    "version": "0.1.0",
+    "reference_impl_hash": "TODO",
+    "property_tests_hash": "TODO",
+    "metamorphic_tests_hash": "TODO",
+    "known_good_hash": "TODO",
+    "known_bad_hash": "TODO",
+    "environment_hash": "TODO"
+  },
+  "upgrade_policy": {
+    "patch": "fix logs or docs only — does not affect scores",
+    "minor": "add new counterexamples or properties — old scores preserved, new scores computed separately",
+    "major": "semantic definition change — old and new leaderboards cannot be directly compared"
+  }
+}

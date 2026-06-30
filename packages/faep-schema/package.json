@@ -1,0 +1,45 @@
+{
+  "name": "@fresharena/faep-schema",
+  "version": "0.1.0",
+  "description": "FAEP v0.1 canonical evaluation record schema and Zod types",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./task": {
+      "import": "./dist/task.js",
+      "types": "./dist/task.d.ts"
+    },
+    "./solver": {
+      "import": "./dist/solver.js",
+      "types": "./dist/solver.d.ts"
+    },
+    "./record": {
+      "import": "./dist/record.js",
+      "types": "./dist/record.d.ts"
+    }
+  },
+  "files": ["dist", "schemas"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test ./src",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WasmAgent/fresharena.git",
+    "directory": "packages/faep-schema"
+  }
+}

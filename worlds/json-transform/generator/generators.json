@@ -1,0 +1,25 @@
+{
+  "generators": [
+    {
+      "id": "random-baseline",
+      "type": "random-baseline",
+      "description": "Uniformly sample grammar and parameters — establishes a lower bound",
+      "version": "0.1.0",
+      "entrypoint": "random-baseline/index.ts"
+    },
+    {
+      "id": "curriculum-baseline",
+      "type": "curriculum-baseline",
+      "description": "Generate tasks at controlled difficulty levels via complexity dials",
+      "version": "0.1.0",
+      "entrypoint": "curriculum-baseline/index.ts"
+    },
+    {
+      "id": "adversarial-baseline",
+      "type": "adversarial-baseline",
+      "description": "Generate tasks targeting historical solver failure patterns",
+      "version": "0.1.0",
+      "entrypoint": "adversarial-baseline/index.ts"
+    }
+  ]
+}

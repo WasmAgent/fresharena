@@ -1,0 +1,6 @@
+{
+  "schema_version": "0.1.0",
+  "pool_version": "0.1.0",
+  "description": "Public Immunity Pool — confirmed counterexamples that all solvers must pass",
+  "counterexamples": []
+}

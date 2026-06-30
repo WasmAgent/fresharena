@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.turbo/
+coverage/
+target/
+*.lock
+!bun.lock
+records/
+!records/samples/
+records/samples/*.jsonl
+!records/samples/sample-run.jsonl
+reports/static/
+!reports/static/.gitkeep
+.env
+.env.local
+*.DS_Store

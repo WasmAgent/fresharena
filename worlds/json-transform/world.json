@@ -1,0 +1,48 @@
+{
+  "world_id": "json-transform",
+  "version": "0.1.0",
+  "families": [
+    {
+      "id": "json_transform.normalize.v0",
+      "priority": "P0",
+      "description": "Normalize a JSON object according to a declarative normalization spec",
+      "verifier": "json_transform_verifier",
+      "verifier_version": "0.1.0"
+    },
+    {
+      "id": "json_transform.diff_patch.v0",
+      "priority": "P0",
+      "description": "Produce a patch from two JSON objects such that apply(patch, source) == target",
+      "verifier": "json_transform_verifier",
+      "verifier_version": "0.1.0"
+    },
+    {
+      "id": "json_transform.merge.v0",
+      "priority": "P1",
+      "description": "Merge two JSON objects according to an explicit conflict resolution policy",
+      "verifier": "json_transform_verifier",
+      "verifier_version": "0.1.0"
+    },
+    {
+      "id": "json_transform.schema_migration.v0",
+      "priority": "P1",
+      "description": "Migrate a JSON object from schema version N to N+1 using a migration spec",
+      "verifier": "json_transform_verifier",
+      "verifier_version": "0.1.0"
+    }
+  ],
+  "solvability_band": {
+    "target_min": 0.20,
+    "target_max": 0.90,
+    "warmup_threshold": 0.90,
+    "review_threshold": 0.01
+  },
+  "admissibility": {
+    "deterministic": true,
+    "reference_solvable": true,
+    "duplicate_distance_above_threshold": true,
+    "no_ambiguous_policy": true,
+    "cost_within_limit": true,
+    "engineering_relevance_min": true
+  }
+}
