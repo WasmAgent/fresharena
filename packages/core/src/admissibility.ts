@@ -1,7 +1,7 @@
 import {
   type AdmissibilityResult,
-  type TaskSpec,
   NormalizeConstraintsSchema,
+  type TaskSpec,
 } from '@fresharena/faep-schema';
 import { normalize, stableStringify } from '@fresharena/verifier-runtime';
 
@@ -106,7 +106,10 @@ export function checkNoAmbiguousPolicy(task: TaskSpec): GateOutcome {
 
 /** Gate 5: within the per-task compute budget. */
 export function checkCostWithinLimit(input: GateInput): GateOutcome {
-  const inputBytes = Buffer.byteLength(stableStringify(input.task.examples[0]?.input ?? {}), 'utf8');
+  const inputBytes = Buffer.byteLength(
+    stableStringify(input.task.examples[0]?.input ?? {}),
+    'utf8',
+  );
   if (inputBytes > input.maxSourceBytes) {
     return {
       passed: false,

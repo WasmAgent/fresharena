@@ -1,6 +1,6 @@
-import { test, expect } from 'bun:test';
-import { normalize } from './normalize.js';
+import { expect, test } from 'bun:test';
 import type { NormalizeConstraints } from '@fresharena/faep-schema';
+import { normalize } from './normalize.js';
 
 // Reference-semantics tests for `json_transform.normalize.v0`.
 //

@@ -45,9 +45,7 @@ function buggyA(input: unknown): unknown {
 /** Buggy B: lexicographically sorts every array's elements (corrupts order/types). */
 function buggyB(input: unknown): unknown {
   if (Array.isArray(input)) {
-    return [...input]
-      .map((element) => buggyB(element))
-      .sort((a, b) => stableCompare(a, b));
+    return [...input].map((element) => buggyB(element)).sort((a, b) => stableCompare(a, b));
   }
   if (isPlainObject(input)) {
     const out: Record<string, unknown> = {};

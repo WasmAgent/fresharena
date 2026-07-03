@@ -1,5 +1,5 @@
-import type { FaepRecord } from '@fresharena/faep-schema';
 import type { ScorerResult } from '@fresharena/core/scorer';
+import type { FaepRecord } from '@fresharena/faep-schema';
 
 export interface ReportOptions {
   records: FaepRecord[];

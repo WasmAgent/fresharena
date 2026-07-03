@@ -1,6 +1,6 @@
 import { parseNormalizeConstraints } from '@fresharena/faep-schema';
-import { normalize } from './normalize.js';
 import { sha256Hex } from './crypto.js';
+import { normalize } from './normalize.js';
 
 export interface VerifyInput {
   taskId: string;

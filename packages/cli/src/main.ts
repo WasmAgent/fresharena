@@ -11,7 +11,11 @@ program
 program
   .command('run')
   .description('Run an evaluation against a task world')
-  .option('--track <track>', 'Evaluation track (non-llm | model-fixed | model-open | budget-normalized)', 'non-llm')
+  .option(
+    '--track <track>',
+    'Evaluation track (non-llm | model-fixed | model-open | budget-normalized)',
+    'non-llm',
+  )
   .option('--world <path>', 'Path to task world directory', 'worlds/json-transform')
   .option('--solver <path>', 'Path to solver directory')
   .option('--output <path>', 'Output path for FAEP record (JSONL)')

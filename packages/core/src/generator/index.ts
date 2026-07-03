@@ -1,9 +1,9 @@
-import {
-  type AdmissibilityReport,
-  type AdmissibilityResult,
-  type NormalizeConstraints,
-  type TaskFamily,
-  type TaskSpec,
+import type {
+  AdmissibilityReport,
+  AdmissibilityResult,
+  NormalizeConstraints,
+  TaskFamily,
+  TaskSpec,
 } from '@fresharena/faep-schema';
 import { normalize, sha256OfString, shortHash } from '@fresharena/verifier-runtime';
 import { evaluateAdmissibility } from '../admissibility.js';
