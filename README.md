@@ -87,8 +87,11 @@ See [`docs/protocol-faep.md`](docs/protocol-faep.md) for the full schema.
 |---|---|---|
 | `wasmagent-js` | Sandbox / tool-use runtime reference | No |
 | `open-agent-audit` | Evidence record enhancement layer | Optional |
+| `agent-trust-infra` | Trust Passport & AgentBOM standards for evidence | See docs |
 | `trace-pipeline` | Export failure traces as training data | Phase 2 |
 | `bscode` | Coding task source / solver baseline | Phase 2 |
+
+See [`docs/audit-integration.md`](docs/audit-integration.md) for details on how FreshArena FAEP records map to the Trust Passport schema.
 
 ---
 
