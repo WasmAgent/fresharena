@@ -1,6 +1,6 @@
 import { parseNormalizeConstraints } from '@fresharena/faep-schema';
-import { normalize } from './normalize.js';
 import { sha256Hex } from './crypto.js';
+import { normalize } from './normalize.js';
 
 export interface VerifyInput {
   taskId: string;
@@ -28,12 +28,14 @@ export function verify(input: VerifyInput): VerifyResult {
   const expectedHash = sha256Hex(expected);
   const actualHash = sha256Hex(input.output);
   const passed = expectedHash === actualHash;
-  return {
+  const base = {
     passed,
     expected_hash: expectedHash,
     actual_hash: actualHash,
-    failure_reason: passed ? undefined : 'output does not match reference normalize output',
   };
+  return passed
+    ? base
+    : { ...base, failure_reason: 'output does not match reference normalize output' };
 }
 
 export function expectedHashFor(input: unknown, constraints: unknown): string {

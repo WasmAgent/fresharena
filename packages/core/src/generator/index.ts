@@ -1,9 +1,9 @@
-import {
-  type AdmissibilityReport,
-  type AdmissibilityResult,
-  type NormalizeConstraints,
-  type TaskFamily,
-  type TaskSpec,
+import type {
+  AdmissibilityReport,
+  AdmissibilityResult,
+  NormalizeConstraints,
+  TaskFamily,
+  TaskSpec,
 } from '@fresharena/faep-schema';
 import { normalize, sha256OfString, shortHash } from '@fresharena/verifier-runtime';
 import { evaluateAdmissibility } from '../admissibility.js';
@@ -145,7 +145,9 @@ export function generateTaskAt(rootSeed: string, index: number): GeneratedTask {
     input_schema: { type: 'object' },
     output_schema: { type: 'object' },
     operation_spec: { type: 'normalize', constraints },
-    examples: [{ input, output }],
+    examples: [
+      { input: input as Record<string, unknown>, output: output as Record<string, unknown> },
+    ],
     hidden_tests: {
       seed_hash: sha256OfString(`${taskSeed}:hidden`),
       count: 8,
