@@ -1,3 +1,4 @@
+import { parseNormalizeConstraints } from '@fresharena/faep-schema';
 import type { EvalTrack, SolverMetadata, TaskSpec } from '@fresharena/faep-schema';
 import { normalize, shortHash } from '@fresharena/verifier-runtime';
 
@@ -22,7 +23,7 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 
 /** Reference implementation: always correct by definition. */
 function reference(input: unknown, task: TaskSpec): unknown {
-  return normalize(input, task.operation_spec.constraints);
+  return normalize(input, parseNormalizeConstraints(task.operation_spec.constraints));
 }
 
 /** Weak floor baseline: returns the input unchanged. */
@@ -45,9 +46,7 @@ function buggyA(input: unknown): unknown {
 /** Buggy B: lexicographically sorts every array's elements (corrupts order/types). */
 function buggyB(input: unknown): unknown {
   if (Array.isArray(input)) {
-    return [...input]
-      .map((element) => buggyB(element))
-      .sort((a, b) => stableCompare(a, b));
+    return [...input].map((element) => buggyB(element)).sort((a, b) => stableCompare(a, b));
   }
   if (isPlainObject(input)) {
     const out: Record<string, unknown> = {};

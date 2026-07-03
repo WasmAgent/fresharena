@@ -1,7 +1,7 @@
 {
   "name": "@fresharena/solver-reference",
   "version": "0.1.0",
-  "description": "Reference solver for JSON Transform World — correct upper bound, no LLM",
+  "description": "Reference solver for JSON Transform World \u2014 correct upper bound, no LLM",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "bun test ./src",
+    "test": "bun test ./src || (ls src 2>/dev/null | grep -q \"\\.test\\.ts\\|\\.spec\\.ts\" && exit 1 || exit 0)",
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {

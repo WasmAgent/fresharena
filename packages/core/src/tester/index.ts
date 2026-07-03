@@ -1,7 +1,7 @@
-import fc from 'fast-check';
 import type { NormalizeConstraints, TaskSpec } from '@fresharena/faep-schema';
 import type { Counterexample } from '@fresharena/faep-schema';
 import { normalize, sha256Hex, shortHash, stableStringify } from '@fresharena/verifier-runtime';
+import fc from 'fast-check';
 import { Rng } from '../rng.js';
 import type { SolverFn } from '../solvers/index.js';
 
@@ -22,10 +22,7 @@ const DEFAULT_NUM_RUNS = 100;
 const arbConstraints = fc.record({
   sort_keys: fc.boolean(),
   strip_nulls: fc.boolean(),
-  flatten: fc.oneof(
-    fc.constant(null),
-    fc.record({ delimiter: fc.constantFrom('.', '_', '/') }),
-  ),
+  flatten: fc.oneof(fc.constant(null), fc.record({ delimiter: fc.constantFrom('.', '_', '/') })),
 }) as fc.Arbitrary<NormalizeConstraints>;
 
 const arbJsonValue = fc.jsonValue({ maxDepth: 4 });
@@ -47,10 +44,12 @@ export interface IdempotenceResult {
  *   normalize(normalize(x, c), c) === normalize(x, c)
  * Deterministic: the fast-check seed is fixed and reproducible.
  */
-export function runIdempotenceProperty(opts: {
-  numRuns?: number;
-  seed?: number;
-} = {}): IdempotenceResult {
+export function runIdempotenceProperty(
+  opts: {
+    numRuns?: number;
+    seed?: number;
+  } = {},
+): IdempotenceResult {
   const numRuns = opts.numRuns ?? DEFAULT_NUM_RUNS;
   const seed = opts.seed ?? 0xfae01;
   const counterexamples: Counterexample[] = [];
@@ -71,7 +70,7 @@ export function runIdempotenceProperty(opts: {
             actual_output: twice as Record<string, unknown>,
             verifier_version: TESTER_VERSION,
             minimized: true,
-            reproduction_command: `normalize(normalize(input, c), c)`,
+            reproduction_command: 'normalize(normalize(input, c), c)',
             hash: shortHash(stableStringify({ value, constraints }), 12),
           });
         }
@@ -138,7 +137,7 @@ export function runDifferentialCheck(
       family: 'json_transform.normalize.v0',
       operation_spec: { type: 'normalize', constraints },
       examples: [],
-    } as TaskSpec);
+    } as unknown as TaskSpec);
     if (sha256Hex(actual) !== sha256Hex(expected)) {
       counterexamples.push({
         task_id: `differential-${i}`,

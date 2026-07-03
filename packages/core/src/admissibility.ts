@@ -1,7 +1,8 @@
 import {
   type AdmissibilityResult,
-  type TaskSpec,
   NormalizeConstraintsSchema,
+  type TaskSpec,
+  parseNormalizeConstraints,
 } from '@fresharena/faep-schema';
 import { normalize, stableStringify } from '@fresharena/verifier-runtime';
 
@@ -67,7 +68,7 @@ export function checkDeterministic(task: TaskSpec): GateOutcome {
 export function checkReferenceSolvable(task: TaskSpec): GateOutcome {
   const constraints = task.operation_spec.constraints;
   for (const example of task.examples) {
-    const actual = normalize(example.input, constraints);
+    const actual = normalize(example.input, parseNormalizeConstraints(constraints));
     if (stableStringify(actual) !== stableStringify(example.output)) {
       return { passed: false, reason: 'reference output disagrees with declared example output' };
     }
@@ -106,7 +107,10 @@ export function checkNoAmbiguousPolicy(task: TaskSpec): GateOutcome {
 
 /** Gate 5: within the per-task compute budget. */
 export function checkCostWithinLimit(input: GateInput): GateOutcome {
-  const inputBytes = Buffer.byteLength(stableStringify(input.task.examples[0]?.input ?? {}), 'utf8');
+  const inputBytes = Buffer.byteLength(
+    stableStringify(input.task.examples[0]?.input ?? {}),
+    'utf8',
+  );
   if (inputBytes > input.maxSourceBytes) {
     return {
       passed: false,

@@ -1,4 +1,4 @@
-import type { FaepRecord, TaskSpec, SolverMetadata, EvalTrack } from '@fresharena/faep-schema';
+import type { EvalTrack, FaepRecord, SolverMetadata, TaskSpec } from '@fresharena/faep-schema';
 
 export interface EvalRunOptions {
   taskSpec: TaskSpec;
