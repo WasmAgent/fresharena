@@ -7,13 +7,12 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!**/dist",
-      "!**/node_modules",
-      "!**/coverage",
-      "!**/.turbo",
-      "!**/target"
+    "ignore": [
+      "**/dist",
+      "**/node_modules",
+      "**/coverage",
+      "**/.turbo",
+      "**/target"
     ]
   },
   "formatter": {
