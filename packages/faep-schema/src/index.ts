@@ -71,6 +71,79 @@ export function parseNormalizeConstraints(constraints: unknown): NormalizeConstr
   return NormalizeConstraintsSchema.parse(constraints);
 }
 
+// ─── diff_patch.v0 closed semantics constraints ─────────────────────────────────
+//
+// The diff operation produces a structural patch between two JSON values.
+// The patch operation applies a patch to a source value to produce a target value.
+// The semantics guarantee: apply(diff(source, target), source) === target
+
+export const DiffPatchConstraintsSchema = z.object({
+  // Maximum depth to traverse when computing differences
+  max_depth: z.number().int().nonnegative().default(10),
+  // Whether to include array indices in patch operations (false = array replace only)
+  array_indices: z.boolean().default(true),
+  // Patch format: 'ops' for operation list, 'merge' for RFC 7396 JSON Merge Patch
+  format: z.enum(['ops', 'merge']).default('ops'),
+});
+export type DiffPatchConstraints = z.infer<typeof DiffPatchConstraintsSchema>;
+
+export function parseDiffPatchConstraints(constraints: unknown): DiffPatchConstraints {
+  return DiffPatchConstraintsSchema.parse(constraints);
+}
+
+// ─── merge.v0 closed semantics constraints ─────────────────────────────────────
+//
+// Merge operation combines two JSON objects according to explicit conflict policies.
+// When both inputs have the same key, the resolution strategy is determined by policy.
+
+export const MergePolicySchema = z.enum([
+  'left', // Use left value on conflict
+  'right', // Use right value on conflict
+  'deep', // Recursively merge nested objects
+  'error', // Fail on key conflict
+]);
+
+export const MergeConstraintsSchema = z.object({
+  // How to resolve key conflicts
+  policy: MergePolicySchema.default('right'),
+  // Whether to merge arrays (concatenate) or replace them
+  merge_arrays: z.boolean().default(false),
+  // Array merge deduplication when merge_arrays is true
+  array_dedup: z.boolean().default(true),
+});
+export type MergeConstraints = z.infer<typeof MergeConstraintsSchema>;
+
+export function parseMergeConstraints(constraints: unknown): MergeConstraints {
+  return MergeConstraintsSchema.parse(constraints);
+}
+
+// ─── schema_migration.v0 closed semantics constraints ─────────────────────────
+//
+// Schema migration transforms JSON objects from one schema version to another.
+// Uses explicit field mapping, type conversion, and default value rules.
+
+export const FieldMappingSchema = z.object({
+  // New field name (null = remove field)
+  target: z.string().nullable(),
+  // Default value if source field is missing
+  default: z.unknown().optional(),
+  // Type conversion: 'string', 'number', 'boolean', 'keep'
+  type: z.enum(['string', 'number', 'boolean', 'keep']).default('keep'),
+});
+
+export const SchemaMigrationConstraintsSchema = z.object({
+  // Field mappings from old schema to new schema
+  // Format: { "old_field_name": { target: "new_field_name", default: ..., type: ... } }
+  field_mappings: z.record(FieldMappingSchema),
+  // Whether to remove unmapped fields
+  drop_unmapped: z.boolean().default(true),
+});
+export type SchemaMigrationConstraints = z.infer<typeof SchemaMigrationConstraintsSchema>;
+
+export function parseSchemaMigrationConstraints(constraints: unknown): SchemaMigrationConstraints {
+  return SchemaMigrationConstraintsSchema.parse(constraints);
+}
+
 // ─── Solver ──────────────────────────────────────────────────────────────────
 
 export const EvalTrackSchema = z.enum([

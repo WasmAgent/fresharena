@@ -1,5 +1,11 @@
 export type { NormalizeConstraints } from '@fresharena/faep-schema';
+export type { DiffPatchConstraints } from '@fresharena/faep-schema';
+export type { MergeConstraints } from '@fresharena/faep-schema';
+export type { SchemaMigrationConstraints } from '@fresharena/faep-schema';
 export { normalize } from './normalize.js';
+export { diff, apply } from './diff_patch.js';
+export { merge } from './merge.js';
+export { migrate } from './schema_migration.js';
 export {
   verify,
   expectedHashFor,
