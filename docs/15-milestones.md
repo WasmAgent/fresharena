@@ -1,4 +1,3 @@
-```markdown
 # Milestones
 
 ## Milestone 1 — Working Prototype
@@ -33,4 +32,3 @@
 - [ ] `README.md` includes "Reproducing These Results" section with one-command verification
 - [ ] Three external agent projects confirm ability to reproduce baseline results
 - [ ] `docs/future-work.md` outlines extensions to additional task families beyond JSON transforms
-```
