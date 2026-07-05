@@ -3,12 +3,12 @@
   "verifier_package": {
     "id": "json_transform_verifier",
     "version": "0.1.0",
-    "reference_impl_hash": "TODO",
-    "property_tests_hash": "TODO",
-    "metamorphic_tests_hash": "TODO",
-    "known_good_hash": "TODO",
-    "known_bad_hash": "TODO",
-    "environment_hash": "TODO"
+    "reference_impl_hash": "phase0-reference",
+    "property_tests_hash": "phase0-property",
+    "metamorphic_tests_hash": "phase0-metamorphic",
+    "known_good_hash": "phase0-known-good",
+    "known_bad_hash": "phase0-known-bad",
+    "environment_hash": "phase0-env"
   },
   "upgrade_policy": {
     "patch": "fix logs or docs only — does not affect scores",
