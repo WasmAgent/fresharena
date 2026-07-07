@@ -1,0 +1,65 @@
+{
+  "id": "json-transform.normalize.composed.001",
+  "family": "json_transform.normalize.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Any JSON value with unsorted keys, null entries, and nested objects"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "Normalized JSON: nulls stripped, nested objects flattened, keys sorted ascending"
+  },
+  "operation_spec": {
+    "type": "normalize",
+    "constraints": {
+      "sort_keys": true,
+      "strip_nulls": true,
+      "flatten": { "delimiter": "_" }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "z": { "y": null, "x": 1 },
+        "a": 2,
+        "list": [3, 1, { "d": null, "c": 4 }]
+      },
+      "output": {
+        "a": 2,
+        "list": [3, 1, { "c": 4 }],
+        "z_x": 1
+      }
+    },
+    {
+      "input": {
+        "b": { "y": null, "x": 1 },
+        "a": 2
+      },
+      "output": {
+        "a": 2,
+        "b_x": 1
+      }
+    },
+    {
+      "input": {
+        "list": [3, 1, 2, { "b": 1, "a": 0 }]
+      },
+      "output": {
+        "list": [3, 1, 2, { "a": 0, "b": 1 }]
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "example-published-nominal",
+    "count": 1
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 128,
+    "max_source_bytes": 65536
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "json-transform.normalize.strip-nulls.001",
+  "family": "json_transform.normalize.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Any JSON value that may contain null-valued object entries"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "The JSON value with all null-valued object entries removed recursively; nulls inside arrays are preserved"
+  },
+  "operation_spec": {
+    "type": "normalize",
+    "constraints": {
+      "sort_keys": false,
+      "strip_nulls": true,
+      "flatten": null
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "name": "test",
+        "metadata": null,
+        "config": { "debug": null, "port": 8080 },
+        "tags": [null, "active"]
+      },
+      "output": {
+        "name": "test",
+        "config": { "port": 8080 },
+        "tags": [null, "active"]
+      }
+    },
+    {
+      "input": {
+        "a": 1,
+        "b": null,
+        "c": { "d": null, "e": 2 },
+        "arr": [null, 1, { "x": null, "y": 2 }]
+      },
+      "output": {
+        "a": 1,
+        "c": { "e": 2 },
+        "arr": [null, 1, { "y": 2 }]
+      }
+    },
+    {
+      "input": {
+        "nested": { "deep": { "deeper": { "v": null } } }
+      },
+      "output": {
+        "nested": { "deep": { "deeper": {} } }
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "example-published-nominal",
+    "count": 1
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 128,
+    "max_source_bytes": 65536
+  }
+}

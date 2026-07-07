@@ -1,0 +1,71 @@
+{
+  "id": "json-transform.normalize.sort-keys.001",
+  "family": "json_transform.normalize.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Any JSON value with unsorted object keys",
+    "properties": {
+      "*": {}
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "The same JSON value with all object keys sorted ascending by UTF-16 code unit"
+  },
+  "operation_spec": {
+    "type": "normalize",
+    "constraints": {
+      "sort_keys": true,
+      "strip_nulls": false,
+      "flatten": null
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "zebra": 1,
+        "apple": { "cherry": 3, "banana": 2 },
+        "mango": [3, 1, 2]
+      },
+      "output": {
+        "apple": { "banana": 2, "cherry": 3 },
+        "mango": [3, 1, 2],
+        "zebra": 1
+      }
+    },
+    {
+      "input": {
+        "c": "top-level",
+        "b": { "z": "deep", "a": "leaf" },
+        "a": [5, 4, 3, { "j": 10, "i": 9 }]
+      },
+      "output": {
+        "a": [5, 4, 3, { "i": 9, "j": 10 }],
+        "b": { "a": "leaf", "z": "deep" },
+        "c": "top-level"
+      }
+    },
+    {
+      "input": {
+        "only_one": "value"
+      },
+      "output": {
+        "only_one": "value"
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "example-published-nominal",
+    "count": 1
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 128,
+    "max_source_bytes": 65536
+  }
+}
+

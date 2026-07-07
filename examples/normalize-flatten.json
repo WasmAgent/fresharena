@@ -1,0 +1,68 @@
+{
+  "id": "json-transform.normalize.flatten.001",
+  "family": "json_transform.normalize.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Any JSON value with nested plain objects"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "All nested plain objects collapsed into single-level keys joined by the delimiter; arrays are opaque leaves"
+  },
+  "operation_spec": {
+    "type": "normalize",
+    "constraints": {
+      "sort_keys": false,
+      "strip_nulls": false,
+      "flatten": { "delimiter": "." }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "server": { "host": "localhost", "port": 8080 },
+        "db": { "name": "mydb" },
+        "active": true
+      },
+      "output": {
+        "server.host": "localhost",
+        "server.port": 8080,
+        "db.name": "mydb",
+        "active": true
+      }
+    },
+    {
+      "input": {
+        "a": { "b": { "c": 1 } },
+        "d": [1, 2],
+        "e": "x"
+      },
+      "output": {
+        "a.b.c": 1,
+        "d": [1, 2],
+        "e": "x"
+      }
+    },
+    {
+      "input": {
+        "level1": { "level2": { "level3": { "value": "deep" } } }
+      },
+      "output": {
+        "level1.level2.level3.value": "deep"
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "example-published-nominal",
+    "count": 1
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 128,
+    "max_source_bytes": 65536
+  }
+}

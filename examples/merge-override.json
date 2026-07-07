@@ -1,0 +1,69 @@
+{
+  "id": "json-transform.merge.override.001",
+  "family": "json_transform.merge.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Two JSON objects to merge plus a conflict resolution policy",
+    "properties": {
+      "base": { "type": "object" },
+      "override": { "type": "object" },
+      "policy": {
+        "type": "string",
+        "enum": ["override_wins", "base_wins", "error_on_conflict"],
+        "description": "How to resolve key conflicts when both objects define the same key"
+      }
+    },
+    "required": ["base", "override", "policy"]
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "The merged result according to the declared conflict resolution policy"
+  },
+  "operation_spec": {
+    "type": "merge",
+    "constraints": {
+      "policy": "override_wins",
+      "depth": "shallow",
+      "array_strategy": "replace"
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "base": { "name": "app", "port": 3000, "debug": false },
+        "override": { "port": 8080, "debug": true },
+        "policy": "override_wins"
+      },
+      "output": { "name": "app", "port": 8080, "debug": true }
+    },
+    {
+      "input": {
+        "base": { "host": "localhost", "retries": 3 },
+        "override": { "host": "0.0.0.0" },
+        "policy": "override_wins"
+      },
+      "output": { "host": "0.0.0.0", "retries": 3 }
+    },
+    {
+      "input": {
+        "base": { "a": 1, "b": { "nested": true } },
+        "override": { "b": { "nested": false, "extra": 42 } },
+        "policy": "override_wins"
+      },
+      "output": { "a": 1, "b": { "nested": false, "extra": 42 } }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "example-published-nominal",
+    "count": 1
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 128,
+    "max_source_bytes": 65536
+  }
+}

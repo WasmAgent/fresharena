@@ -1,0 +1,126 @@
+{
+  "id": "json-transform.schema-migration.rename.001",
+  "family": "json_transform.schema_migration.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "A JSON document conforming to a source schema and a migration specification",
+    "properties": {
+      "document": { "type": "object" },
+      "migration": {
+        "type": "object",
+        "properties": {
+          "from_version": { "type": "string" },
+          "to_version": { "type": "string" },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "op": { "type": "string", "enum": ["rename", "type_cast", "default", "delete"] },
+                "path": { "type": "string" },
+                "to": { "type": "string" },
+                "value": {}
+              },
+              "required": ["op", "path"]
+            }
+          }
+        },
+        "required": ["from_version", "to_version", "steps"]
+      }
+    },
+    "required": ["document", "migration"]
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "The migrated JSON document conforming to the target schema"
+  },
+  "operation_spec": {
+    "type": "migrate",
+    "constraints": {
+      "from_version": "1",
+      "to_version": "2",
+      "strict": true
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "document": {
+          "userName": "alice",
+          "userAge": 30,
+          "isActive": true
+        },
+        "migration": {
+          "from_version": "1",
+          "to_version": "2",
+          "steps": [
+            { "op": "rename", "path": "userName", "to": "name" },
+            { "op": "rename", "path": "userAge", "to": "age" },
+            { "op": "rename", "path": "isActive", "to": "active" }
+          ]
+        }
+      },
+      "output": {
+        "name": "alice",
+        "age": 30,
+        "active": true
+      }
+    },
+    {
+      "input": {
+        "document": {
+          "old_field": "value",
+          "keep_me": "stable"
+        },
+        "migration": {
+          "from_version": "1",
+          "to_version": "2",
+          "steps": [
+            { "op": "rename", "path": "old_field", "to": "new_field" }
+          ]
+        }
+      },
+      "output": {
+        "new_field": "value",
+        "keep_me": "stable"
+      }
+    },
+    {
+      "input": {
+        "document": {
+          "serverPort": 8080,
+          "serverHost": "localhost",
+          "timeout": 30
+        },
+        "migration": {
+          "from_version": "1",
+          "to_version": "2",
+          "steps": [
+            { "op": "rename", "path": "serverPort", "to": "port" },
+            { "op": "rename", "path": "serverHost", "to": "host" },
+            { "op": "default", "path": "retries", "value": 3 }
+          ]
+        }
+      },
+      "output": {
+        "port": 8080,
+        "host": "localhost",
+        "timeout": 30,
+        "retries": 3
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "example-published-nominal",
+    "count": 1
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 128,
+    "max_source_bytes": 65536
+  }
+}
