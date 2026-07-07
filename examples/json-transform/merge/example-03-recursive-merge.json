@@ -1,0 +1,159 @@
+{
+  "id": "jt-merge-example-003",
+  "family": "json_transform.merge.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Input contains nested objects. Recursive merge merges nested objects instead of replacing them."
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "Recursively merged JSON object with nested conflict resolution"
+  },
+  "operation_spec": {
+    "type": "merge",
+    "constraints": {
+      "conflict_policy": "last_write_wins",
+      "recursive": true,
+      "priority": ["left", "right", "base"]
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "base": {
+          "config": {
+            "database": {
+              "host": "localhost",
+              "port": 5432
+            },
+            "cache": {
+              "enabled": false
+            }
+          }
+        },
+        "left": {
+          "config": {
+            "database": {
+              "host": "prod-db.example.com"
+            }
+          }
+        },
+        "right": {
+          "config": {
+            "cache": {
+              "enabled": true,
+              "ttl": 3600
+            }
+          }
+        }
+      },
+      "output": {
+        "merged": {
+          "config": {
+            "database": {
+              "host": "prod-db.example.com",
+              "port": 5432
+            },
+            "cache": {
+              "enabled": true,
+              "ttl": 3600
+            }
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "base": {
+          "user": {
+            "name": "Charlie",
+            "settings": {
+              "theme": "dark"
+            }
+          }
+        },
+        "left": {
+          "user": {
+            "settings": {
+              "notifications": true
+            }
+          }
+        },
+        "right": {
+          "user": {
+            "settings": {
+              "language": "en"
+            }
+          }
+        }
+      },
+      "output": {
+        "merged": {
+          "user": {
+            "name": "Charlie",
+            "settings": {
+              "theme": "dark",
+              "notifications": true,
+              "language": "en"
+            }
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "base": {
+          "api": {
+            "v1": {
+              "endpoint": "/api/v1"
+            }
+          }
+        },
+        "left": {
+          "api": {
+            "v1": {
+              "auth": "bearer"
+            },
+            "v2": {
+              "endpoint": "/api/v2"
+            }
+          }
+        },
+        "right": {
+          "api": {
+            "v1": {
+              "rate_limit": 1000
+            }
+          }
+        }
+      },
+      "output": {
+        "merged": {
+          "api": {
+            "v1": {
+              "endpoint": "/api/v1",
+              "auth": "bearer",
+              "rate_limit": 1000
+            },
+            "v2": {
+              "endpoint": "/api/v2"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:79a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f6a7b8c9d0e1f2",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

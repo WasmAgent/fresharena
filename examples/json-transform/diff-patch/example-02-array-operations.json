@@ -1,0 +1,96 @@
+{
+  "id": "jt-diff-patch-example-002",
+  "family": "json_transform.diff_patch.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Input contains source and target arrays. The patch must correctly handle array additions, removals, and replacements."
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "A JSON patch (RFC 6902) for array operations"
+  },
+  "operation_spec": {
+    "type": "diff",
+    "constraints": {
+      "format": "rfc6902",
+      "ensure_reversibility": true
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "source": {
+          "tags": ["javascript", "typescript"]
+        },
+        "target": {
+          "tags": ["javascript", "typescript", "rust"]
+        }
+      },
+      "output": {
+        "patch": [
+          {
+            "op": "add",
+            "path": "/tags/-",
+            "value": "rust"
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "source": {
+          "items": [1, 2, 3, 4, 5]
+        },
+        "target": {
+          "items": [1, 2, 4, 5]
+        }
+      },
+      "output": {
+        "patch": [
+          {
+            "op": "remove",
+            "path": "/items/2"
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "source": {
+          "users": []
+        },
+        "target": {
+          "users": [
+            {"id": 1, "name": "Alice"},
+            {"id": 2, "name": "Bob"}
+          ]
+        }
+      },
+      "output": {
+        "patch": [
+          {
+            "op": "add",
+            "path": "/users",
+            "value": [
+              {"id": 1, "name": "Alice"},
+              {"id": 2, "name": "Bob"}
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:d4e5f6879a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f6a7b8c",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

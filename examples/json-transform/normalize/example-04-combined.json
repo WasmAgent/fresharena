@@ -1,0 +1,106 @@
+{
+  "id": "jt-normalize-example-004",
+  "family": "json_transform.normalize.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "A JSON object requiring full normalization: sort keys, strip nulls, and flatten"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "Fully normalized JSON object"
+  },
+  "operation_spec": {
+    "type": "normalize",
+    "constraints": {
+      "sort_keys": true,
+      "strip_nulls": true,
+      "flatten": {
+        "delimiter": "."
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "z": null,
+        "a": 1,
+        "m": {
+          "y": 2,
+          "b": null
+        }
+      },
+      "output": {
+        "a": 1,
+        "m.y": 2
+      }
+    },
+    {
+      "input": {
+        "user": {
+          "z": "last",
+          "nickname": null,
+          "a": "first",
+          "profile": {
+            "b": "bio",
+            "a": null
+          }
+        },
+        "id": 42
+      },
+      "output": {
+        "id": 42,
+        "user.a": "first",
+        "user.z": "last",
+        "user.profile.b": "bio"
+      }
+    },
+    {
+      "input": {
+        "omega": {
+          "beta": null,
+          "alpha": 1
+        },
+        "zeta": null,
+        "alpha": {
+          "omega": 3,
+          "alpha": null
+        }
+      },
+      "output": {
+        "alpha.alpha": 3,
+        "alpha.omega": 3,
+        "omega.alpha": 1
+      }
+    },
+    {
+      "input": {
+        "service": {
+          "database": {
+            "port": null,
+            "host": "localhost"
+          },
+          "cache": null
+        },
+        "version": "2.0.0",
+        "debug": null
+      },
+      "output": {
+        "service.database.host": "localhost",
+        "version": "2.0.0"
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:b2c3d4e5f6879a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f6a",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

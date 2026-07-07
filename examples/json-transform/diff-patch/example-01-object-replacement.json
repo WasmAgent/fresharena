@@ -1,0 +1,107 @@
+{
+  "id": "jt-diff-patch-example-001",
+  "family": "json_transform.diff_patch.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Input contains two objects: 'source' and 'target'. The task is to produce a patch that transforms source to target."
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "A patch object representing operations to transform source into target"
+  },
+  "operation_spec": {
+    "type": "diff",
+    "constraints": {
+      "format": "rfc6902",
+      "ensure_reversibility": true
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "source": {
+          "name": "Alice",
+          "age": 30
+        },
+        "target": {
+          "name": "Alice",
+          "age": 31
+        }
+      },
+      "output": {
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/age",
+            "value": 31
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "source": {
+          "user": "Bob",
+          "status": "active"
+        },
+        "target": {
+          "user": "Bob",
+          "status": "inactive",
+          "role": "admin"
+        }
+      },
+      "output": {
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/status",
+            "value": "inactive"
+          },
+          {
+            "op": "add",
+            "path": "/role",
+            "value": "admin"
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "source": {
+          "config": {
+            "port": 8080
+          },
+          "debug": true
+        },
+        "target": {
+          "config": {
+            "port": 8080
+          },
+          "debug": false
+        }
+      },
+      "output": {
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/debug",
+            "value": false
+          }
+        ]
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:c3d4e5f6879a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f6a7b",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

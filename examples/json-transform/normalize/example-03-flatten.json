@@ -1,0 +1,103 @@
+{
+  "id": "jt-normalize-example-003",
+  "family": "json_transform.normalize.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "A nested JSON object to be flattened into a single level"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "Flattened JSON object with compound keys using the specified delimiter"
+  },
+  "operation_spec": {
+    "type": "normalize",
+    "constraints": {
+      "sort_keys": false,
+      "strip_nulls": false,
+      "flatten": {
+        "delimiter": "."
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "user": {
+          "name": "Charlie",
+          "email": "charlie@example.com"
+        },
+        "active": true
+      },
+      "output": {
+        "user.name": "Charlie",
+        "user.email": "charlie@example.com",
+        "active": true
+      }
+    },
+    {
+      "input": {
+        "config": {
+          "database": {
+            "host": "localhost",
+            "port": 5432
+          },
+          "cache": {
+            "enabled": true
+          }
+        },
+        "version": "1.0.0"
+      },
+      "output": {
+        "config.database.host": "localhost",
+        "config.database.port": 5432,
+        "config.cache.enabled": true,
+        "version": "1.0.0"
+      }
+    },
+    {
+      "input": {
+        "a": {
+          "b": {
+            "c": {
+              "d": "deep"
+            }
+          }
+        },
+        "root": "value"
+      },
+      "output": {
+        "a.b.c.d": "deep",
+        "root": "value"
+      }
+    },
+    {
+      "input": {
+        "path": {
+          "to": {
+            "array": [1, 2, 3],
+            "nested": "value"
+          }
+        },
+        "level": "top"
+      },
+      "output": {
+        "path.to.array": [1, 2, 3],
+        "path.to.nested": "value",
+        "level": "top"
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:a1b2c3d4e5f6879a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

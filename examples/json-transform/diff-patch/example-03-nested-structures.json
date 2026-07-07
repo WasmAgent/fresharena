@@ -1,0 +1,126 @@
+{
+  "id": "jt-diff-patch-example-003",
+  "family": "json_transform.diff_patch.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Input contains deeply nested source and target objects requiring complex patch generation"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "A JSON patch handling nested object modifications"
+  },
+  "operation_spec": {
+    "type": "diff",
+    "constraints": {
+      "format": "rfc6902",
+      "ensure_reversibility": true
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "source": {
+          "config": {
+            "database": {
+              "host": "localhost",
+              "port": 5432
+            }
+          }
+        },
+        "target": {
+          "config": {
+            "database": {
+              "host": "prod-db.example.com",
+              "port": 5432
+            }
+          }
+        }
+      },
+      "output": {
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/config/database/host",
+            "value": "prod-db.example.com"
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "source": {
+          "user": {
+            "name": "Charlie",
+            "preferences": {
+              "theme": "dark"
+            }
+          }
+        },
+        "target": {
+          "user": {
+            "name": "Charlie",
+            "preferences": {
+              "theme": "light",
+              "notifications": true
+            }
+          }
+        }
+      },
+      "output": {
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/user/preferences/theme",
+            "value": "light"
+          },
+          {
+            "op": "add",
+            "path": "/user/preferences/notifications",
+            "value": true
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "source": {
+          "meta": {
+            "version": "1.0",
+            "deprecated": false
+          }
+        },
+        "target": {
+          "meta": {
+            "version": "2.0"
+          }
+        }
+      },
+      "output": {
+        "patch": [
+          {
+            "op": "replace",
+            "path": "/meta/version",
+            "value": "2.0"
+          },
+          {
+            "op": "remove",
+            "path": "/meta/deprecated"
+          }
+        ]
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:e5f6879a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f6a7b8c9d",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

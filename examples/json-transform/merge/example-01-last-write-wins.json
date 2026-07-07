@@ -1,0 +1,100 @@
+{
+  "id": "jt-merge-example-001",
+  "family": "json_transform.merge.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Input contains 'base', 'left', and 'right' objects to merge with conflict resolution policy"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "Merged JSON object with conflicts resolved according to the specified policy"
+  },
+  "operation_spec": {
+    "type": "merge",
+    "constraints": {
+      "conflict_policy": "last_write_wins",
+      "priority": ["left", "right", "base"]
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "base": {
+          "name": "Alice",
+          "age": 30
+        },
+        "left": {
+          "age": 31
+        },
+        "right": {
+          "age": 32
+        }
+      },
+      "output": {
+        "merged": {
+          "name": "Alice",
+          "age": 31
+        }
+      }
+    },
+    {
+      "input": {
+        "base": {
+          "config": {
+            "port": 8080,
+            "debug": true
+          }
+        },
+        "left": {
+          "config": {
+            "port": 9090
+          }
+        },
+        "right": {
+          "config": {
+            "debug": false
+          }
+        }
+      },
+      "output": {
+        "merged": {
+          "config": {
+            "port": 9090,
+            "debug": false
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "base": {
+          "tags": ["a", "b"]
+        },
+        "left": {
+          "tags": ["a", "c"]
+        },
+        "right": {
+          "tags": ["b", "d"]
+        }
+      },
+      "output": {
+        "merged": {
+          "tags": ["a", "c"]
+        }
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:f6879a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f6a7b8c9d0e",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

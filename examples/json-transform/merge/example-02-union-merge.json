@@ -1,0 +1,88 @@
+{
+  "id": "jt-merge-example-002",
+  "family": "json_transform.merge.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Input contains base, left, and right objects. Union merge combines all unique keys."
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "Merged JSON object with union of all keys from left and right"
+  },
+  "operation_spec": {
+    "type": "merge",
+    "constraints": {
+      "conflict_policy": "union",
+      "array_behavior": "concat"
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "base": {
+          "name": "Bob"
+        },
+        "left": {
+          "email": "bob@example.com"
+        },
+        "right": {
+          "phone": "555-0100"
+        }
+      },
+      "output": {
+        "merged": {
+          "name": "Bob",
+          "email": "bob@example.com",
+          "phone": "555-0100"
+        }
+      }
+    },
+    {
+      "input": {
+        "base": {
+          "tags": ["javascript"]
+        },
+        "left": {
+          "tags": ["typescript", "nodejs"]
+        },
+        "right": {
+          "tags": ["javascript", "rust"]
+        }
+      },
+      "output": {
+        "merged": {
+          "tags": ["javascript", "typescript", "nodejs", "rust"]
+        }
+      }
+    },
+    {
+      "input": {
+        "base": {},
+        "left": {
+          "permissions": ["read", "write"]
+        },
+        "right": {
+          "permissions": ["execute"]
+        }
+      },
+      "output": {
+        "merged": {
+          "permissions": ["read", "write", "execute"]
+        }
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:6879a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f6a7b8c9d0e1",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

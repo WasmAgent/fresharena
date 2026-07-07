@@ -1,0 +1,115 @@
+{
+  "id": "jt-schema-migration-example-003",
+  "family": "json_transform.schema_migration.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "Event object with flat structure in v1 format"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "Event object migrated to v2 format with nested structure"
+  },
+  "operation_spec": {
+    "type": "migrate",
+    "constraints": {
+      "from_version": "1.0",
+      "to_version": "2.0",
+      "migration_spec": {
+        "structure_transform": {
+          "move_under_metadata": ["eventId", "timestamp", "source"],
+          "move_under_payload": ["eventType", "userId", "data"],
+          "rename_fields": {
+            "eventId": "event_id",
+            "eventType": "event_type",
+            "userId": "user_id"
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "eventId": "evt-001",
+        "timestamp": "2024-01-01T00:00:00Z",
+        "source": "api",
+        "eventType": "user.created",
+        "userId": "user-123",
+        "data": {
+          "name": "Alice",
+          "email": "alice@example.com"
+        }
+      },
+      "output": {
+        "metadata": {
+          "event_id": "evt-001",
+          "timestamp": "2024-01-01T00:00:00Z",
+          "source": "api"
+        },
+        "payload": {
+          "event_type": "user.created",
+          "user_id": "user-123",
+          "data": {
+            "name": "Alice",
+            "email": "alice@example.com"
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "eventId": "evt-002",
+        "timestamp": "2024-01-02T12:00:00Z",
+        "eventType": "order.placed",
+        "userId": "user-456"
+      },
+      "output": {
+        "metadata": {
+          "event_id": "evt-002",
+          "timestamp": "2024-01-02T12:00:00Z"
+        },
+        "payload": {
+          "event_type": "order.placed",
+          "user_id": "user-456"
+        }
+      }
+    },
+    {
+      "input": {
+        "eventId": "evt-003",
+        "source": "webhook",
+        "eventType": "payment.completed",
+        "data": {
+          "amount": 100.00,
+          "currency": "USD"
+        }
+      },
+      "output": {
+        "metadata": {
+          "event_id": "evt-003",
+          "source": "webhook"
+        },
+        "payload": {
+          "event_type": "payment.completed",
+          "data": {
+            "amount": 100.00,
+            "currency": "USD"
+          }
+        }
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f6a7b8c9d0e1f2a3b4",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "id": "jt-schema-migration-example-001",
+  "family": "json_transform.schema_migration.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "User object in v1 format with legacy field names"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "User object migrated to v2 format with updated field names"
+  },
+  "operation_spec": {
+    "type": "migrate",
+    "constraints": {
+      "from_version": "1.0",
+      "to_version": "2.0",
+      "migration_spec": {
+        "field_mappings": {
+          "userName": "username",
+          "emailAddress": "email",
+          "isActive": "active"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "userName": "alice",
+        "emailAddress": "alice@example.com",
+        "isActive": true
+      },
+      "output": {
+        "username": "alice",
+        "email": "alice@example.com",
+        "active": true
+      }
+    },
+    {
+      "input": {
+        "userName": "bob",
+        "emailAddress": "bob@example.com",
+        "isActive": false,
+        "legacyId": "12345"
+      },
+      "output": {
+        "username": "bob",
+        "email": "bob@example.com",
+        "active": false,
+        "legacyId": "12345"
+      }
+    },
+    {
+      "input": {
+        "userName": "charlie",
+        "isActive": true
+      },
+      "output": {
+        "username": "charlie",
+        "active": true
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:879a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7890a1b2c3d4e5f6a7b8c9d0e1f2",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}

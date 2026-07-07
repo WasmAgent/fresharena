@@ -1,0 +1,94 @@
+{
+  "id": "jt-normalize-example-001",
+  "family": "json_transform.normalize.v0",
+  "input_schema": {
+    "type": "object",
+    "description": "A JSON object with unsorted keys and potential nested structures"
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "Normalized JSON object with sorted keys (ascending by UTF-16 code unit)"
+  },
+  "operation_spec": {
+    "type": "normalize",
+    "constraints": {
+      "sort_keys": true,
+      "strip_nulls": false,
+      "flatten": null
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "z": 1,
+        "a": 2,
+        "m": 3
+      },
+      "output": {
+        "a": 2,
+        "m": 3,
+        "z": 1
+      }
+    },
+    {
+      "input": {
+        "user": {
+          "z": "last",
+          "a": "first"
+        },
+        "id": 42
+      },
+      "output": {
+        "id": 42,
+        "user": {
+          "a": "first",
+          "z": "last"
+        }
+      }
+    },
+    {
+      "input": {
+        "Ω": 1,
+        "α": 2,
+        "ω": 3,
+        "A": 4,
+        "z": 5
+      },
+      "output": {
+        "A": 4,
+        "a": 2,
+        "z": 5,
+        "α": 2,
+        "Ω": 1,
+        "ω": 3
+      }
+    },
+    {
+      "input": {
+        "array": [
+          {"z": 1, "a": 2},
+          {"m": 3, "b": 4}
+        ]
+      },
+      "output": {
+        "array": [
+          {"a": 2, "z": 1},
+          {"b": 4, "m": 3}
+        ]
+      }
+    }
+  ],
+  "hidden_tests": {
+    "seed_hash": "sha256:3a2f1b8e9c7d6a4e5f8b9c2a1d3e5f7a9b8c6d4e2f1a3c5d7e9f8b6a4c2d1e3f",
+    "count": 100
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "limits": {
+    "timeout_ms": 5000,
+    "memory_mb": 256,
+    "max_source_bytes": 1048576
+  }
+}
