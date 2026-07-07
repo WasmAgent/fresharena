@@ -12,9 +12,7 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@fresharena/faep-schema": "workspace:*"
-  },
-  "peerDependencies": {
+    "@fresharena/faep-schema": "workspace:*",
     "openai": ">=4.0.0"
   }
 }

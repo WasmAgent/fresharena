@@ -2,6 +2,7 @@ import type { NormalizeConstraints, TaskSpec } from '@fresharena/faep-schema';
 import type { Counterexample } from '@fresharena/faep-schema';
 import { normalize, sha256Hex, shortHash, stableStringify } from '@fresharena/verifier-runtime';
 import fc from 'fast-check';
+import { minimizeCounterexample } from '../minimizer/index.js';
 import { Rng } from '../rng.js';
 import type { SolverFn } from '../solvers/index.js';
 
@@ -69,7 +70,7 @@ export function runIdempotenceProperty(
             expected_output: once as Record<string, unknown>,
             actual_output: twice as Record<string, unknown>,
             verifier_version: TESTER_VERSION,
-            minimized: true,
+            minimized: false,
             reproduction_command: 'normalize(normalize(input, c), c)',
             hash: shortHash(stableStringify({ value, constraints }), 12),
           });
@@ -132,24 +133,40 @@ export function runDifferentialCheck(
     const input = randomDifferentialInput(rng);
     const constraints = randomConstraintsFromRng(rng);
     const expected = normalize(input, constraints);
-    const actual = solverFn(input, {
+    const taskSpec = {
       id: `differential-${i}`,
       family: 'json_transform.normalize.v0',
       operation_spec: { type: 'normalize', constraints },
       examples: [],
-    } as unknown as TaskSpec);
+    } as unknown as TaskSpec;
+    const actual = solverFn(input, taskSpec);
     if (sha256Hex(actual) !== sha256Hex(expected)) {
-      counterexamples.push({
+      // Create the original counterexample
+      const original: Counterexample = {
         task_id: `differential-${i}`,
         solver_id: solverId,
         input: { value: input } as Record<string, unknown>,
         expected_output: expected as Record<string, unknown>,
         actual_output: actual as Record<string, unknown>,
         verifier_version: TESTER_VERSION,
-        minimized: true,
+        minimized: false,
         reproduction_command: `normalize(${stableStringify(input)}, ${stableStringify(constraints)})`,
         hash: shortHash(`${solverId}:${stableStringify({ input, expected })}`, 12),
-      });
+      };
+
+      // Minimize the counterexample
+      const minimizerResult = minimizeCounterexample(
+        original,
+        (input: unknown, constraints: unknown) => normalize(input, constraints as NormalizeConstraints),
+        solverFn,
+        taskSpec,
+        {
+          maxIterations: 50,
+          timeoutMs: 1000,
+        },
+      );
+
+      counterexamples.push(minimizerResult.minimized);
     }
   }
 

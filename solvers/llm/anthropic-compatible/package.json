@@ -12,9 +12,7 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@fresharena/faep-schema": "workspace:*"
-  },
-  "peerDependencies": {
+    "@fresharena/faep-schema": "workspace:*",
     "@anthropic-ai/sdk": ">=0.20.0"
   }
 }
