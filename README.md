@@ -31,6 +31,20 @@ fresharena verify worlds/json-transform
 
 ---
 
+## Reproducing These Results
+
+To reproduce the published baseline results, run a single command:
+
+```bash
+fresharena replay records/samples/sample-run.jsonl
+```
+
+This replays a recorded evaluation run, producing the same scores and verification results as published in [`docs/baseline-results.md`](docs/baseline-results.md). The replay command is deterministic — given the same FAEP record, it produces identical output.
+
+For full details on the evaluation protocol and record schema, see [`docs/protocol-faep.md`](docs/protocol-faep.md).
+
+---
+
 ## Repository Layout
 
 ```
