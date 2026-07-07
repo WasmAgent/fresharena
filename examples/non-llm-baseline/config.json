@@ -1,0 +1,78 @@
+{
+  "$schema": "../../schemas/evaluation-config.v1.json",
+  "name": "non-llm-baseline",
+  "description": "Baseline evaluation configuration for non-LLM solvers (reference, weak, and buggy solvers).",
+  "track": "non_llm",
+  "world": {
+    "path": "worlds/json-transform",
+    "task_families": [
+      "json_transform.normalize.v0",
+      "json_transform.diff_patch.v0",
+      "json_transform.merge.v0"
+    ]
+  },
+  "generator": {
+    "id": "random-baseline",
+    "version": "0.1.0",
+    "seed": "baseline_20241215",
+    "config": {
+      "fresh_task_count": 500,
+      "fixed_task_count": 100,
+      "admissibility_checks": true
+    }
+  },
+  "solvers": [
+    {
+      "id": "reference-solver",
+      "path": "solvers/non-llm/reference-solver",
+      "description": "Reference implementation — correctness upper bound"
+    },
+    {
+      "id": "weak-solver",
+      "path": "solvers/non-llm/weak-solver",
+      "description": "Intentionally weak solver — performance lower bound"
+    },
+    {
+      "id": "buggy-solver-a",
+      "path": "solvers/non-llm/buggy-solvers",
+      "description": "Drops nested keys — structural bug validation"
+    },
+    {
+      "id": "buggy-solver-b",
+      "path": "solvers/non-llm/buggy-solvers",
+      "description": "Incorrect array sorting — ordering bug validation"
+    },
+    {
+      "id": "buggy-solver-c",
+      "path": "solvers/non-llm/buggy-solvers",
+      "description": "Incorrect null handling — null-preservation bug validation"
+    }
+  ],
+  "tester": {
+    "id": "property-based-tester",
+    "version": "0.1.0",
+    "enabled": true,
+    "config": {
+      "strategy": "property-based",
+      "test_count_per_task": 50,
+      "minimize_counterexamples": true
+    }
+  },
+  "verifier": {
+    "package": "json_transform_verifier",
+    "version": "0.1.0"
+  },
+  "output": {
+    "path": "records/non-llm-baseline.jsonl",
+    "format": "faep-v0.1.0-jsonl"
+  },
+  "adversarial": {
+    "enabled": true,
+    "post_submit": true,
+    "test_count": 50
+  },
+  "immunity_pool": {
+    "enabled": true,
+    "path": "worlds/json-transform/immunity-pool-v0.json"
+  }
+}
