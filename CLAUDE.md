@@ -29,6 +29,20 @@ bun run test        # vitest
 - Do not introduce `any` types — typecheck must pass
 - Tests live alongside source (`*.test.ts` files)
 
+
+## Key docs — read in this order when working on an issue
+
+| Doc | When to read |
+|-----|-------------|
+| `docs/roadmap.md` | Phase 0→3 plan, gate condition, shipped vs. future |
+| `docs/15-milestones.md` | Acceptance criteria for each milestone (what "done" means) |
+| `docs/protocol-faep.md` | FAEP v0.1 record schema — canonical format for all records |
+| `docs/experiment-design.md` | Research methodology, hypothesis, statistical approach |
+| `docs/component-specifications.md` | Package-level specs for core, cli, verifier-runtime |
+| `docs/scoring.md` | Scoring formulas and rank comparison methodology |
+| `docs/task-family-json-transform.md` | JSON transform world design — subtasks, generators |
+| `docs/design-principles.md` | Architectural decisions (determinism, adversarial, reproducibility) |
+
 ## Current status (2026-07-09)
 
 ### Milestone 1 — Working Prototype ✅ COMPLETE
