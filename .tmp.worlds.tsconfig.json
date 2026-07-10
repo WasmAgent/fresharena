@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@fresharena/faep-schema": ["packages/faep-schema/dist/index.d.ts"],
+      "@fresharena/verifier-runtime": ["packages/verifier-runtime/dist/index.d.ts"]
+    }
+  },
+  "include": ["worlds/json-transform/generator/**/*.ts"]
+}
