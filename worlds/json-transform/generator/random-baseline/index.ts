@@ -12,6 +12,7 @@
 
 import type {
   DiffPatchConstraints,
+  FailureDiff,
   MergeConstraints,
   NormalizeConstraints,
   TaskFamily,
@@ -22,6 +23,7 @@ import {
   diff,
   merge,
   normalize,
+  sha256Hex,
   sha256OfString,
   shortHash,
 } from '@fresharena/verifier-runtime';
@@ -287,6 +289,109 @@ function generateMergeTask(seed: string, index: number): TaskSpec {
   };
 }
 
+// ─── Failure diff annotation ──────────────────────────────────────────────────
+//
+// Computes a minimal structural diff between expected and actual solver output
+// for use in FAEP records when a verifier check fails (issue #60).  The diff is
+// redacted, size-capped, and timed-out so failure records are safe to ship.
+
+const SENSITIVE_KEY_RE = /_(secret|password|token|key)$/i;
+const DIFF_SIZE_CAP_BYTES = 4096;
+const DIFF_TIMEOUT_MS = 50;
+const DIFF_CONSTRAINTS = { max_depth: 10, array_indices: true, format: 'merge' as const };
+
+/** Recursively replace values under keys matching the sensitive-key pattern. */
+function redactSensitiveKeys(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map(redactSensitiveKeys);
+  }
+  if (value !== null && typeof value === 'object') {
+    const obj = value as Record<string, unknown>;
+    const out: Record<string, unknown> = {};
+    for (const key of Object.keys(obj)) {
+      out[key] = SENSITIVE_KEY_RE.test(key)
+        ? '[REDACTED]'
+        : redactSensitiveKeys(obj[key]);
+    }
+    return out;
+  }
+  return value;
+}
+
+/** Result of annotating an adversarial failure with a minimal structural diff. */
+export interface FailureAnnotation {
+  /** Minimal structural diff between actual and expected output. */
+  failure_diff: FailureDiff;
+  /** SHA-256 hash of the serialized diff.  Null when diff is a sentinel string. */
+  failure_diff_hash: string | null;
+}
+
+/**
+ * Annotate an adversarial failure with a minimal structural diff.
+ *
+ * Computes a merge-patch style diff between the solver's actual output and the
+ * verifier's expected output.  Sensitive keys matching
+ * `/_(secret|password|token|key)$/i` are redacted before diffing.  The result
+ * is size-capped at 4 KB and timed out at 50 ms.
+ *
+ * Possible return values for `failure_diff`:
+ * - An object: merge-patch delta or a `{ __structure_clash__ }` sentinel
+ *   when the two values are not mutually comparable JSON types.
+ * - A string: `"<diff_too_large>"` or `"__DIFF_UNAVAILABLE__"` sentinel.
+ * - `null` when the values are identical (no diff needed).
+ */
+export function annotateFailureDiff(
+  expectedOutput: unknown,
+  actualOutput: unknown,
+): FailureAnnotation {
+  // Identical values → no diff needed.
+  if (JSON.stringify(expectedOutput) === JSON.stringify(actualOutput)) {
+    return { failure_diff: null, failure_diff_hash: null };
+  }
+
+  // Detect structure clash (type mismatch between top-level JSON kinds).
+  const expectedIsArray = Array.isArray(expectedOutput);
+  const actualIsArray = Array.isArray(actualOutput);
+  const expectedIsPlainObj =
+    !expectedIsArray && expectedOutput !== null && typeof expectedOutput === 'object';
+  const actualIsPlainObj =
+    !actualIsArray && actualOutput !== null && typeof actualOutput === 'object';
+
+  if (expectedIsArray !== actualIsArray || expectedIsPlainObj !== actualIsPlainObj) {
+    const expectedType = expectedIsArray ? 'array' : expectedIsPlainObj ? 'object' : typeof expectedOutput;
+    const actualType = actualIsArray ? 'array' : actualIsPlainObj ? 'object' : typeof actualOutput;
+    const sentinel = {
+      __structure_clash__: true,
+      reason: `expected ${expectedType}, got ${actualType}`,
+    };
+    return { failure_diff: sentinel, failure_diff_hash: sha256Hex(sentinel) };
+  }
+
+  // Redact sensitive keys in both sides *before* diffing so secrets never
+  // appear in the delta.
+  const redactedExpected = redactSensitiveKeys(expectedOutput);
+  const redactedActual = redactSensitiveKeys(actualOutput);
+
+  const start = Date.now();
+  try {
+    const patch = diff(redactedActual, redactedExpected, DIFF_CONSTRAINTS);
+
+    // Timeout guard — synchronous diff should be fast but we bound it.
+    if (Date.now() - start > DIFF_TIMEOUT_MS) {
+      return { failure_diff: '__DIFF_UNAVAILABLE__', failure_diff_hash: null };
+    }
+
+    // Size-cap check on the serialized diff.
+    if (JSON.stringify(patch).length > DIFF_SIZE_CAP_BYTES) {
+      return { failure_diff: '<diff_too_large>', failure_diff_hash: null };
+    }
+
+    return { failure_diff: patch as FailureDiff, failure_diff_hash: sha256Hex(patch) };
+  } catch {
+    return { failure_diff: '__DIFF_UNAVAILABLE__', failure_diff_hash: null };
+  }
+}
+
 // Map operation family to task generator
 const FAMILY_GENERATORS: Record<
   TaskFamily,
@@ -340,4 +445,5 @@ export function generate(opts: GenerateOptions): GenerateOutput {
   return { tasks, seeds };
 }
 
-export { type NormalizeConstraints, type DiffPatchConstraints, type MergeConstraints };
+export { type NormalizeConstraints, type DiffPatchConstraints, type MergeConstraints, type FailureDiff };
+export { type FailureAnnotation, annotateFailureDiff };

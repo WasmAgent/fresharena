@@ -173,31 +173,31 @@ function generateAdversarialDiffTask(
     () => ({
       source: { items: [{ id: 1 }, { id: 2 }, { id: 3 }] },
       target: { items: [{ id: 1 }, { id: 4 }, { id: 3 }] },
-      constraints: { max_depth: 5, array_indices: true, format: 'ops' },
+      constraints: { max_depth: 5, array_indices: true, format: 'ops' as const },
     }),
     // Array replace scenario
     () => ({
       source: { items: [{ id: 1 }, { id: 2 }] },
       target: { items: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-      constraints: { max_depth: 5, array_indices: false, format: 'ops' },
+      constraints: { max_depth: 5, array_indices: false, format: 'ops' as const },
     }),
     // Deep nesting diff
     () => ({
       source: createDeepNesting(rng, 5),
       target: { ...createDeepNesting(rng, 5), changed: 'value' },
-      constraints: { max_depth: 3, array_indices: true, format: 'ops' },
+      constraints: { max_depth: 3, array_indices: true, format: 'ops' as const },
     }),
     // Merge format with nulls
     () => ({
       source: { a: 'keep', b: 'delete', c: 'change' },
       target: { a: 'keep', b: null, c: 'changed' },
-      constraints: { max_depth: 5, array_indices: true, format: 'merge' },
+      constraints: { max_depth: 5, array_indices: true, format: 'merge' as const },
     }),
     // Wide object diff
     () => ({
       source: createWideObject(rng),
       target: { ...createWideObject(rng), newKey: 'newValue' },
-      constraints: { max_depth: 5, array_indices: true, format: 'ops' },
+      constraints: { max_depth: 5, array_indices: true, format: 'ops' as const },
     }),
   ];
 
