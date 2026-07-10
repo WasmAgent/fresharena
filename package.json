@@ -17,11 +17,12 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "typecheck": "turbo run typecheck",
+    "typecheck": "bun run check:locks && turbo run typecheck",
     "test": "turbo run test",
     "lint": "biome check packages/",
     "lint:fix": "biome check --write packages/",
     "clean": "turbo run clean",
+    "check:locks": "bun run scripts/verify-lockfiles.ts",
     "verify:sensitive-info": "node scripts/check-no-sensitive-info.mjs",
     "verify:schemas": "node scripts/verify-schemas.mjs",
     "fresharena": "bun run --filter @fresharena/cli start"
