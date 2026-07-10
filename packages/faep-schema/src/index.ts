@@ -309,22 +309,6 @@ export const ScoreVectorSchema = z.object({
   score_vector: z.record(z.unknown()),
 });
 
-// ─── Failure diff annotation ──────────────────────────────────────────────────
-//
-// When a verifier check fails, the runner computes a minimal semantic diff
-// between the solver output and the verifier expectation and stores it on the
-// FAEP record so a failure explains *what* changed, not just *that* it did. The
-// runner redacts secrets, size-caps the payload, and hashes the result (see
-// issue #60). `FailureDiffSchema` is a permissive union so it can represent every
-// runner outcome without over-constraining the delta shape:
-//   - object: a jsondiffpatch delta, or a "structure clash" sentinel object
-//     emitted when the two values are not mutually comparable JSON;
-//   - string: a literal sentinel such as "<diff_too_large>" (>4KB once
-//     serialized) or "__DIFF_UNAVAILABLE__" (diff threw or timed out);
-//   - null:   the run passed, or no comparable diff could be produced.
-export const FailureDiffSchema = z.union([z.record(z.unknown()), z.string(), z.null()]);
-export type FailureDiff = z.infer<typeof FailureDiffSchema>;
-
 export const FaepRecordSchema = z.object({
   schema_version: z.literal('0.1.0'),
   run_id: z.string(),
@@ -363,13 +347,6 @@ export const FaepRecordSchema = z.object({
     container_hash: z.string(),
   }),
   score: ScoreVectorSchema,
-  // Minimal semantic diff of the failure (redacted, size-capped). Absent on a
-  // passing run; on failure it is a delta object, a sentinel string, or null.
-  // See `FailureDiffSchema`.
-  failure_diff: FailureDiffSchema.optional(),
-  // SHA-256 of the serialized, redacted `failure_diff`. Absent when no diff was
-  // computed (e.g. a passing run).
-  failure_diff_hash: z.string().optional(),
   replay: z.object({
     command: z.string(),
     log_hash: z.string(),
