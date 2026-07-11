@@ -4,6 +4,7 @@ import {
   parseNormalizeConstraints,
   parseSchemaMigrationConstraints,
 } from '@fresharena/faep-schema';
+import { verifierCache, VerifyResultCache } from './cache.js';
 import { sha256Hex } from './crypto.js';
 import { apply, diff } from './diff_patch.js';
 import { merge } from './merge.js';
@@ -33,8 +34,18 @@ export interface VerifyResult {
  * For normalize, diff, patch, merge, and migrate operations, a submission passes
  * iff its structural hash equals the reference implementation's structural hash.
  * Object key order is irrelevant (see `stableStringify`); array order is significant.
+ *
+ * Results are cached by content hash so that repeated identical verification
+ * calls short-circuit the computation.
  */
-export function verify(input: VerifyInput): VerifyResult {
+export function verify(input: VerifyInput, cache?: VerifyResultCache): VerifyResult {
+  const cacheInstance = cache ?? verifierCache;
+  const cacheKey = VerifyResultCache.key(input);
+  const cached = cacheInstance.get(cacheKey);
+  if (cached !== undefined) {
+    return cached;
+  }
+
   const operationType = input.operationType || inferOperationType(input.taskId);
 
   let expected: unknown;
@@ -79,7 +90,10 @@ export function verify(input: VerifyInput): VerifyResult {
     actual_hash: actualHash,
   };
 
-  return passed ? base : { ...base, failure_reason: failureReason };
+  const result: VerifyResult = passed ? base : { ...base, failure_reason: failureReason };
+
+  cacheInstance.set(cacheKey, result);
+  return result;
 }
 
 /**

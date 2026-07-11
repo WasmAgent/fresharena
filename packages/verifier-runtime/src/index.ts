@@ -13,6 +13,7 @@ export {
   type VerifyResult,
 } from './verify.js';
 export { sha256Hex, sha256OfString, shortHash, stableStringify } from './crypto.js';
+export { VerifyResultCache, verifierCache } from './cache.js';
 
 export interface VerifierPackage {
   id: string;
