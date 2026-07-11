@@ -25,7 +25,26 @@ export interface VerifyResult {
   expected_hash: string;
   actual_hash: string;
   failure_reason?: string;
+  /**
+   * Structured semantic diff between the expected output and the solver's
+   * actual output, computed when the verification fails. The diff uses the
+   * same ops-format as `diff_patch.diff()` (a list of add/replace/remove
+   * operations with JSON Pointer paths), which directly visualizes the gap
+   * between expected and actual values. Absent when the verification passes.
+   */
+  failure_diff?: unknown;
 }
+
+/**
+ * Default diff patch constraints used for computing failure diffs.
+ * These match the schema defaults: ops format, array-indices granularity,
+ * and a max depth of 10 levels.
+ */
+const FAILURE_DIFF_CONSTRAINTS = {
+  format: 'ops' as const,
+  array_indices: true,
+  max_depth: 10,
+};
 
 /**
  * Deterministic verifier oracle for all json_transform operations.
@@ -33,6 +52,11 @@ export interface VerifyResult {
  * For normalize, diff, patch, merge, and migrate operations, a submission passes
  * iff its structural hash equals the reference implementation's structural hash.
  * Object key order is irrelevant (see `stableStringify`); array order is significant.
+ *
+ * When the verification fails, the result includes a `failure_diff` field
+ * containing a structured operation-level diff between the expected output
+ * and the solver's actual output. This allows debugging tools to surface
+ * exact property insertions, deletions, and modifications.
  */
 export function verify(input: VerifyInput): VerifyResult {
   const operationType = input.operationType || inferOperationType(input.taskId);
@@ -79,7 +103,32 @@ export function verify(input: VerifyInput): VerifyResult {
     actual_hash: actualHash,
   };
 
-  return passed ? base : { ...base, failure_reason: failureReason };
+  if (passed) {
+    return base;
+  }
+
+  // Compute a structured semantic diff between expected and actual output
+  // when verification fails. This enables the CLI and other tools to show
+  // exact property insertions, deletions, and modifications.
+  const failureDiff = computeFailureDiff(expected, input.output);
+
+  return { ...base, failure_reason: failureReason, failure_diff: failureDiff };
+}
+
+/**
+ * Compute a structured diff between two JSON values for failure reporting.
+ *
+ * Uses the ops-format diff_patch diff with default constraints. If the diff
+ * computation itself fails (e.g. due to depth limits), returns a descriptive
+ * sentinel string.
+ */
+function computeFailureDiff(expected: unknown, actual: unknown): unknown {
+  try {
+    const constraints = parseDiffPatchConstraints(FAILURE_DIFF_CONSTRAINTS);
+    return diff(expected, actual, constraints);
+  } catch {
+    return '__DIFF_UNAVAILABLE__';
+  }
 }
 
 /**
