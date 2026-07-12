@@ -1,6 +1,6 @@
 # Bot State
 
-_Last updated: 2026-07-12 12:38 UTC by patrol_
+_Last updated: 2026-07-12 14:08 UTC by patrol_
 
 ## Queue
 
@@ -9,17 +9,17 @@ _Last updated: 2026-07-12 12:38 UTC by patrol_
 | Pending | 1 |
 | Active (running/reviewing) | 0 |
 | Blocked | 0 |
-| Completed/Merged (all time) | 131 |
+| Completed/Merged (all time) | 134 |
 
 ## Recent Activity (last 5)
 
 | Issue | Title | Outcome | Date |
 |---|---|---|---|
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-12 |
-| #93 | panel-harvest #93 | completed/maintenance_done | 2026-07-12 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-12 |
-| #92 | [discussion] docs: Update `json-transform` task family sp... | completed/panel_synthesized | 2026-07-12 |
-| #93 | [discussion] docs: Audit `experiment-report.md` for accur... | completed/panel_promoted | 2026-07-12 |
+| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-12 |
+| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-12 |
+| #93 | panel-harvest #93 | completed/maintenance_done | 2026-07-12 |
 
 ## Waiting for Human
 
