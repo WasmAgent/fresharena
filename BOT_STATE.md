@@ -1,6 +1,6 @@
 # Bot State
 
-_Last updated: 2026-07-13 07:12 UTC by patrol_
+_Last updated: 2026-07-13 07:44 UTC by patrol_
 
 ## Queue
 
@@ -9,7 +9,7 @@ _Last updated: 2026-07-13 07:12 UTC by patrol_
 | Pending | 2 |
 | Active (running/reviewing) | 0 |
 | Blocked | 2 |
-| Completed/Merged (all time) | 171 |
+| Completed/Merged (all time) | 172 |
 
 ## Recent Activity (last 5)
 
@@ -19,7 +19,7 @@ _Last updated: 2026-07-13 07:12 UTC by patrol_
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
-| #99 | Fix WasmAgent/fresharena#97 (feat: implement slot-substit... | merged/auto_closed_resolved | 2026-07-13 |
+| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
 
 ## Waiting for Human
 
