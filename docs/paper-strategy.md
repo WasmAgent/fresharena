@@ -23,6 +23,45 @@
 
 The contribution is the method and its empirical validation on one domain — not a general solution.
 
+## Positioning relative to existing work
+
+### SWE-bench Pro
+SWE-bench Pro has become the accepted next-generation anti-contamination code benchmark
+(OpenAI stopped reporting SWE-bench Verified due to contamination concerns; Epoch AI
+actively deletes post-solution git history). It is not a competitor — it is a validation
+point. The claim to make:
+
+> FreshArena generalizes the anti-contamination insight behind SWE-bench Pro into a
+> reusable protocol (FAEP). Where SWE-bench Pro applies the methodology to one domain
+> (software engineering), FAEP makes it portable to any task family with a deterministic
+> verifier.
+
+Include a framing section in the paper: "FreshArena as a protocol layer for SWE-bench
+Pro-style evaluation" — this makes it a complement, not a challenger, and increases the
+chance of citation from the SWE-bench community.
+
+### MMLU-CF (Microsoft)
+The MMLU-CF decontamination study showed 3–7 point drops from cleaning benchmark
+contamination alone. Cite this as direct empirical validation that the problem FreshArena
+solves is real and measurable: *contamination inflates scores by several percentage points
+even on well-known public benchmarks*.
+
+### Slot-substitution (the emerging consensus technique)
+The 2026 academic consensus on anti-contamination is slot-substitution: replace named
+entities, values, and dates while preserving task structure, requiring models to "apply
+structure" rather than "recall instances." FreshArena's generator should be positioned as
+implementing this pattern in the coding domain, with deterministic verifiers making it
+feasible where LLM-based scoring is not.
+
+Cite: Shi et al. 2024, Oren et al. 2023 for black-box contamination detection methods
+(these can be used to cross-validate that FreshArena's generated tasks are genuinely fresh).
+
+### Epoch AI's evaluation methodology
+Epoch AI deletes post-solution git history to prevent gold-patch leakage. In FAEP record
+terms, this maps to the `contamination_likelihood` annotation — the record should include
+a confidence estimate of whether a given generated task may already be in training data.
+Cite this as the motivation for the black-box contamination probe (issue #96).
+
 ## Required figures
 
 | Figure | Content |
@@ -34,6 +73,7 @@ The contribution is the method and its empirical validation on one domain — no
 | Fig 5 | Generator metrics: validity rate, novelty rate, discriminative power |
 | Fig 6 | Replay reliability table |
 | Fig 7 | Cost table per track |
+| Fig 8 | (optional) Contamination likelihood distribution across generated tasks |
 
 ## Target venues
 

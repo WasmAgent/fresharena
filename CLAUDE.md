@@ -29,12 +29,32 @@ bun run test        # vitest
 - Do not introduce `any` types — typecheck must pass
 - Tests live alongside source (`*.test.ts` files)
 
+## Strategic positioning
+
+**Read `docs/paper-strategy.md` before opening new issues or designing features.**
+
+FreshArena addresses a real and confirmed 2026 industry problem: static benchmarks are
+systematically failing. The external validation is strong:
+- MMLU-CF shows 3–7 point drops from decontamination alone
+- OpenAI stopped reporting SWE-bench Verified (contamination concerns)
+- Epoch AI actively deletes git history post-task to prevent gold-patch leakage
+- Slot-substitution (replace entities/values, preserve structure) is becoming the
+  consensus anti-contamination technique
+
+**Our positioning**: not another benchmark, but a **protocol (FAEP)** that makes any
+evaluation dynamic and contamination-resistant. Position as the "generalization of
+SWE-bench Pro's approach" — not competing with SWE-bench Pro but making its
+anti-contamination methodology portable.
+
+**BOT_STATE.md**: if it claims completions not reflected in milestone checkboxes,
+that's a trust problem for external reviewers. Issue #95 tracks reconciliation.
 
 ## Key docs — read in this order when working on an issue
 
 | Doc | When to read |
 |-----|-------------|
 | `docs/roadmap.md` | Phase 0→3 plan, gate condition, shipped vs. future |
+| `docs/paper-strategy.md` | Claim language, venue targets, **competitive positioning** |
 | `docs/15-milestones.md` | Acceptance criteria for each milestone (what "done" means) |
 | `docs/protocol-faep.md` | FAEP v0.1 record schema — canonical format for all records |
 | `docs/experiment-design.md` | Research methodology, hypothesis, statistical approach |
@@ -43,35 +63,41 @@ bun run test        # vitest
 | `docs/task-family-json-transform.md` | JSON transform world design — subtasks, generators |
 | `docs/design-principles.md` | Architectural decisions (determinism, adversarial, reproducibility) |
 
-## Current status (2026-07-09)
+## Current status (2026-07-13)
 
 ### Milestone 1 — Working Prototype ✅ COMPLETE
 All M1 issues (#16-24, #53-55) closed and merged.
 
 ### Milestone 2 — Research Experiment ⚠️ MOSTLY COMPLETE
 - ✅ Issues #25-32, #56-57 closed
-- ⚠️ PR #22 open (Fix #17 — json-transform worlds) — MERGEABLE
-- ⚠️ PR #42 open (Fix #31 — experiment-report.md) — MERGEABLE
-- ❌ PR #52 open (Fix #28 — counterexample minimizer) — LINT FAILING
+- PR #52 open (Fix #28 — counterexample minimizer) — lint failing
 
 **PR #52 fix needed**: Run `bun run lint:fix` on the changed files, commit.
 
 ### Milestone 3 — External Release ✅ MOSTLY COMPLETE
 Issues #33-40 closed. Exception:
 - ❌ Issue #39 (needs-human): Three external agent projects confirm reproducibility
-  → This is a human networking task, not a bot task. Leave as needs-human.
+  → Human networking task. Leave as needs-human.
 
-### Open issue
-- ❌ Issue #3: docs/add precise metric formulas, MVP success thresholds, admissibility gate
+### Open issues (in-progress)
+- Issue #95: reconcile BOT_STATE.md completion claims with actual milestone status
+- Issue #96: black-box contamination likelihood probe as optional FAEP record annotation
+- Issue #97: slot-substitution perturbation for json-transform world (PR #99 open)
+- Issue #98: paper-strategy.md — positioning relative to SWE-bench Pro and MMLU-CF
+- Issue #3: add precise metric formulas, MVP success thresholds, admissibility gate
 
 ## Roadmap
 
 Bot: implement issues in order. When closed, open the next unchecked item.
 
-### Phase 2 immediate: fix open PRs
+### Phase 2 immediate: fix open PRs and issues
 - [ ] Fix PR #52 lint failure: run `bun run lint:fix`, commit, CI will pass
 - [ ] Merge PR #22 and PR #42 (already MERGEABLE, just need CI to pass on #52 first)
-- [ ] Close issue #3: add metric formulas to docs/scoring.md and docs/experiment-design.md
+- [ ] #3 Close issue #3: add metric formulas to docs/scoring.md and docs/experiment-design.md
+- [ ] #95 fix: reconcile BOT_STATE.md with actual milestone checkboxes
+- [ ] #97 feat: slot-substitution perturbation for json-transform world (PR #99)
+- [ ] #98 docs: paper-strategy.md competitive positioning vs SWE-bench Pro / MMLU-CF
+- [ ] #96 feat: black-box contamination likelihood probe in FAEP record
 
 ### Phase 3 — Platform expansion (proceed if Phase 1/2 results hold)
 Per `docs/roadmap.md` gate condition:
@@ -90,7 +116,7 @@ Assuming gate passes:
 ### Phase 4 — Research extensions
 - [ ] feat: multi-world leaderboard (aggregate scores across task families)
 - [ ] feat: automated regression detection (flag when solver rank changes significantly)
-- [ ] feat: FAEP v0.2 schema with additional evidence fields
+- [ ] feat: FAEP v0.2 schema with additional evidence fields (contamination likelihood annotation)
 - [ ] docs: peer-review-ready technical report (extend docs/technical-report.md)
 
 ## Repository layout
