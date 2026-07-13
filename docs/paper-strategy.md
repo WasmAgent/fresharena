@@ -56,6 +56,12 @@ feasible where LLM-based scoring is not.
 Cite: Shi et al. 2024, Oren et al. 2023 for black-box contamination detection methods
 (these can be used to cross-validate that FreshArena's generated tasks are genuinely fresh).
 
+Note on scope: `trace-pipeline` (`eval_trust`) handles **dataset-level** contamination
+analysis (paired McNemar statistics across a full benchmark). FreshArena's contamination
+probe is **per-task** — a lightweight probabilistic annotation in the FAEP record for
+a single generated instance. Cite Shi/Oren for the underlying technique; the novelty
+is applying it at per-task granularity inside a live evaluation protocol.
+
 ### Epoch AI's evaluation methodology
 Epoch AI deletes post-solution git history to prevent gold-patch leakage. In FAEP record
 terms, this maps to the `contamination_likelihood` annotation — the record should include

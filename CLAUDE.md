@@ -49,6 +49,14 @@ anti-contamination methodology portable.
 **BOT_STATE.md**: if it claims completions not reflected in milestone checkboxes,
 that's a trust problem for external reviewers. Issue #95 tracks reconciliation.
 
+**Boundary with trace-pipeline**: `trace-pipeline` / `evomerge` handles
+AEP evidence quality audits and benchmark-level contamination analysis (paired
+McNemar statistics, dataset-level contamination checks). FreshArena's
+contamination probe (issue #96) is **per-task**, attached as a FAEP record
+annotation — a probabilistic diagnostic that a single generated task may
+already be in a model's training data. Different granularity, different purpose;
+do not duplicate `eval_trust` logic.
+
 ## Key docs — read in this order when working on an issue
 
 | Doc | When to read |
