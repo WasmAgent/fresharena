@@ -1,6 +1,6 @@
 # Bot State
 
-_Last updated: 2026-07-13 04:47 UTC by patrol_
+_Last updated: 2026-07-13 05:16 UTC by patrol_
 
 ## Queue
 
@@ -8,22 +8,21 @@ _Last updated: 2026-07-13 04:47 UTC by patrol_
 |---|---|
 | Pending | 1 |
 | Active (running/reviewing) | 0 |
-| Blocked | 3 |
-| Completed/Merged (all time) | 166 |
+| Blocked | 2 |
+| Completed/Merged (all time) | 168 |
 
 ## Recent Activity (last 5)
 
 | Issue | Title | Outcome | Date |
 |---|---|---|---|
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
+| #99 | Fix WasmAgent/fresharena#97 (feat: implement slot-substit... | merged/auto_closed_resolved | 2026-07-13 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
-| #96 | feat: integrate black-box contamination likelihood probe ... | completed/complexity_gate_split | 2026-07-13 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
 
 ## Waiting for Human
 
-- #99: Fix WasmAgent/fresharena#97 (feat: implement slot-substitution perturbation for json-transform world dynamic task genera
 - #98: docs: add positioning section to paper-strategy.md relative to SWE-bench Pro and MMLU-CF
 - #95: fix: reconcile BOT_STATE.md completion claims with actual milestone checkpoint status
 - #85: [discussion] explore: CLI: Structured JSON Diff for Verifier Failures
