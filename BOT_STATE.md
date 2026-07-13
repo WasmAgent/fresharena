@@ -1,15 +1,15 @@
 # Bot State
 
-_Last updated: 2026-07-13 15:54 UTC by patrol_
+_Last updated: 2026-07-13 16:12 UTC by patrol_
 
 ## Queue
 
 | State | Count |
 |---|---|
-| Pending | 3 |
-| Active (running/reviewing) | 1 |
+| Pending | 4 |
+| Active (running/reviewing) | 0 |
 | Blocked | 1 |
-| Completed/Merged (all time) | 188 |
+| Completed/Merged (all time) | 189 |
 
 ## Recent Activity (last 5)
 
@@ -23,7 +23,6 @@ _Last updated: 2026-07-13 15:54 UTC by patrol_
 
 ## Waiting for Human
 
-- #100: Fix WasmAgent/fresharena#96 (feat: integrate black-box contamination likelihood probe as optional FAEP record annotation
 - #98: docs: add positioning section to paper-strategy.md relative to SWE-bench Pro and MMLU-CF
 - #95: fix: reconcile BOT_STATE.md completion claims with actual milestone checkpoint status
 - #85: [discussion] explore: CLI: Structured JSON Diff for Verifier Failures
