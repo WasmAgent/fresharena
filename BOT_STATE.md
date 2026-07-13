@@ -1,24 +1,24 @@
 # Bot State
 
-_Last updated: 2026-07-13 04:17 UTC by patrol_
+_Last updated: 2026-07-13 04:47 UTC by patrol_
 
 ## Queue
 
 | State | Count |
 |---|---|
-| Pending | 2 |
+| Pending | 1 |
 | Active (running/reviewing) | 0 |
 | Blocked | 3 |
-| Completed/Merged (all time) | 164 |
+| Completed/Merged (all time) | 166 |
 
 ## Recent Activity (last 5)
 
 | Issue | Title | Outcome | Date |
 |---|---|---|---|
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
-| #96 | feat: integrate black-box contamination likelihood probe ... | completed/complexity_gate_split | 2026-07-13 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
-| #97 | feat: implement slot-substitution perturbation for json-t... | completed/complexity_gate_split | 2026-07-13 |
+| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
+| #96 | feat: integrate black-box contamination likelihood probe ... | completed/complexity_gate_split | 2026-07-13 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
 
 ## Waiting for Human
