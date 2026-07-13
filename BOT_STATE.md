@@ -1,28 +1,29 @@
 # Bot State
 
-_Last updated: 2026-07-13 05:46 UTC by patrol_
+_Last updated: 2026-07-13 06:16 UTC by patrol_
 
 ## Queue
 
 | State | Count |
 |---|---|
-| Pending | 2 |
+| Pending | 1 |
 | Active (running/reviewing) | 0 |
 | Blocked | 2 |
-| Completed/Merged (all time) | 168 |
+| Completed/Merged (all time) | 170 |
 
 ## Recent Activity (last 5)
 
 | Issue | Title | Outcome | Date |
 |---|---|---|---|
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
+| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
+| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
 | #99 | Fix WasmAgent/fresharena#97 (feat: implement slot-substit... | merged/auto_closed_resolved | 2026-07-13 |
-| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
-| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-13 |
 
 ## Waiting for Human
 
+- #100: Fix WasmAgent/fresharena#96 (feat: integrate black-box contamination likelihood probe as optional FAEP record annotation
 - #98: docs: add positioning section to paper-strategy.md relative to SWE-bench Pro and MMLU-CF
 - #95: fix: reconcile BOT_STATE.md completion claims with actual milestone checkpoint status
 - #85: [discussion] explore: CLI: Structured JSON Diff for Verifier Failures
