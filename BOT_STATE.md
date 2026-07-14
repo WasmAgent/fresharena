@@ -1,24 +1,24 @@
 # Bot State
 
-_Last updated: 2026-07-14 06:37 UTC by patrol_
+_Last updated: 2026-07-14 07:07 UTC by patrol_
 
 ## Queue
 
 | State | Count |
 |---|---|
-| Pending | 2 |
+| Pending | 1 |
 | Active (running/reviewing) | 0 |
 | Blocked | 0 |
-| Completed/Merged (all time) | 220 |
+| Completed/Merged (all time) | 222 |
 
 ## Recent Activity (last 5)
 
 | Issue | Title | Outcome | Date |
 |---|---|---|---|
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-14 |
+| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-14 |
+| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-14 |
 | #98 | docs: add positioning section to paper-strategy.md relati... | merged/merged | 2026-07-14 |
-| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-14 |
-| #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-14 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-14 |
 
 ## Waiting for Human
