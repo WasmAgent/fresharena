@@ -1,6 +1,6 @@
 # Bot State
 
-_Last updated: 2026-07-14 10:04 UTC by patrol_
+_Last updated: 2026-07-14 10:35 UTC by patrol_
 
 ## Queue
 
@@ -9,7 +9,7 @@ _Last updated: 2026-07-14 10:04 UTC by patrol_
 | Pending | 1 |
 | Active (running/reviewing) | 0 |
 | Blocked | 0 |
-| Completed/Merged (all time) | 228 |
+| Completed/Merged (all time) | 229 |
 
 ## Recent Activity (last 5)
 
@@ -23,7 +23,6 @@ _Last updated: 2026-07-14 10:04 UTC by patrol_
 
 ## Waiting for Human
 
-- #95: fix: reconcile BOT_STATE.md completion claims with actual milestone checkpoint status
 - #85: [discussion] explore: CLI: Structured JSON Diff for Verifier Failures
 - #84: [discussion] explore: Enforce Runtime Locking for Cross-Platform Determinism
 
