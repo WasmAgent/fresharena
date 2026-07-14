@@ -71,24 +71,14 @@ do not duplicate `eval_trust` logic.
 | `docs/task-family-json-transform.md` | JSON transform world design — subtasks, generators |
 | `docs/design-principles.md` | Architectural decisions (determinism, adversarial, reproducibility) |
 
-## Current status (2026-07-13)
+## Current status
 
-### Milestone 1 — Working Prototype ✅ COMPLETE
-All M1 issues (#16-24, #53-55) closed and merged.
-
-### Milestone 2 — Research Experiment ⚠️ MOSTLY COMPLETE
-- ✅ Issues #25-32, #56-57 closed
-- PR #52 open (Fix #28 — counterexample minimizer) — lint failing
-
-**PR #52 fix needed**: Run `bun run lint:fix` on the changed files, commit.
-
-### Milestone 3 — External Release ✅ MOSTLY COMPLETE
-Issues #33-40 closed. Exception:
-- ❌ Issue #39 (needs-human): Three external agent projects confirm reproducibility
-  → Human networking task. Leave as needs-human.
+> **Authoritative milestone tracking lives in `docs/15-milestones.md`.**
+> That file is verified against `git ls-files` and `bun test` output.
+> BOT_STATE.md tracks issue-level activity (opened/closed/merged), not milestone completion.
+> Do NOT duplicate milestone status prose here — it will drift.
 
 ### Open issues (in-progress)
-- Issue #95: reconcile BOT_STATE.md completion claims with actual milestone status
 - Issue #96: black-box contamination likelihood probe as optional FAEP record annotation
 - Issue #97: slot-substitution perturbation for json-transform world (PR #99 open)
 - Issue #98: paper-strategy.md — positioning relative to SWE-bench Pro and MMLU-CF

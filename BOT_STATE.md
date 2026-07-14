@@ -1,5 +1,10 @@
 # Bot State
 
+> **⚠️ This file tracks issue-level activity (opened, closed, merged), NOT milestone completion.**
+> A closed GitHub issue does not guarantee the corresponding deliverable exists in the repository.
+> For authoritative milestone status, see `docs/15-milestones.md`, which is verified against
+> `git ls-files` and `bun test` output.
+
 _Last updated: 2026-07-14 04:33 UTC by patrol_
 
 ## Queue
