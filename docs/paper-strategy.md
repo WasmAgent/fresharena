@@ -23,7 +23,7 @@
 
 The contribution is the method and its empirical validation on one domain — not a general solution.
 
-## Positioning relative to existing work
+## Relationship to Existing Benchmarks
 
 ### SWE-bench Pro
 SWE-bench Pro has become the accepted next-generation anti-contamination code benchmark
@@ -67,6 +67,37 @@ Epoch AI deletes post-solution git history to prevent gold-patch leakage. In FAE
 terms, this maps to the `contamination_likelihood` annotation — the record should include
 a confidence estimate of whether a given generated task may already be in training data.
 Cite this as the motivation for the black-box contamination probe (issue #96).
+
+### Scope statement (design intent, not a demonstrated capability)
+
+> **Status:** Cross-domain portability is a *design goal* of the FAEP protocol, not a
+> validated result. Only the JSON Transform World is implemented today.
+
+The intended scope of FreshArena is a framework for building anti-contamination
+evaluations in domains expressible as generator + verifier pairs. It is not a single
+benchmark — it is a protocol (FAEP) *designed to make* dynamic generation and
+contamination-resistant evaluation portable across task families, programming languages,
+and reasoning domains. The JSON Transform World is the first — and currently only —
+demonstration domain; portability to additional domains (e.g. data-structure and
+state-machine worlds) is planned under the Phase 3 expansion (`docs/roadmap.md`) and is
+not yet validated.
+
+Where SWE-bench Pro applies dynamic generation to software engineering tasks specifically,
+FreshArena's *aim* is to generalize that approach across domains. Where MMLU-CF
+demonstrates the prevalence and cost of contamination in knowledge benchmarks, FreshArena
+*intends to* provide a protocol-level mechanism to prevent it proactively rather than
+filtering post-hoc.
+
+### Proposed core experiment
+
+The planned empirical study (full methodology in `docs/experiment-design.md`;
+metrics in `docs/scoring.md`) compares solver performance on fixed vs. fresh tasks:
+run the JSON Transform World on at least 3 LLM solvers under a fixed-task condition
+(static snapshot from the versioned task family) and a fresh-task condition
+(dynamically generated instances with hidden seeds), then compare rank orderings.
+The hypothesis — that rankings differ between conditions — is the empirical
+validation target for the paper's central claim that fixed benchmarks can obscure
+real capability differences.
 
 ## Required figures
 
