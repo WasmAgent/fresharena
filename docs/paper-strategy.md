@@ -23,7 +23,7 @@
 
 The contribution is the method and its empirical validation on one domain — not a general solution.
 
-## Positioning relative to existing work
+## Relationship to Existing Benchmarks
 
 ### SWE-bench Pro
 SWE-bench Pro has become the accepted next-generation anti-contamination code benchmark
@@ -67,6 +67,34 @@ Epoch AI deletes post-solution git history to prevent gold-patch leakage. In FAE
 terms, this maps to the `contamination_likelihood` annotation — the record should include
 a confidence estimate of whether a given generated task may already be in training data.
 Cite this as the motivation for the black-box contamination probe (issue #96).
+
+### Scope statement
+FreshArena is a framework for building anti-contamination evaluations in any domain
+expressible as generator + verifier pairs. It is not a single benchmark — it is a protocol
+(FAEP) that makes dynamic generation and contamination-resistant evaluation portable
+across task families, programming languages, and reasoning domains. The JSON Transform
+World is the first demonstration domain; the protocol is designed for extension.
+
+Where SWE-bench Pro applies dynamic generation to software engineering tasks specifically,
+FreshArena generalizes that approach across domains. Where MMLU-CF demonstrates the
+prevalence and cost of contamination in knowledge benchmarks, FreshArena provides the
+protocol-level mechanism to prevent it proactively rather than filtering post-hoc.
+
+### Proposed core experiment
+Run the JSON Transform World on at least 3 LLM solvers under two conditions:
+
+1. **Fixed-task condition**: Evaluate each solver on a static snapshot of tasks drawn from
+   the versioned task family (simulating a traditional fixed benchmark).
+2. **Fresh-task condition**: Evaluate each solver on dynamically generated instances from
+   the same task families, using hidden seeds (the FAEP protocol's default mode).
+
+The primary result is whether the rank ordering of solvers differs significantly between
+the two conditions (Kendall's τ). This directly parallels MMLU-CF's finding that
+contamination inflates scores by several percentage points, but operates at the level of
+solver rankings rather than point drops. A statistically significant rank difference
+would demonstrate that fixed benchmarks obscure real capability differences — the central
+empirical claim of the paper, and the same anti-contamination insight that motivates
+SWE-bench Pro's dynamic-task methodology.
 
 ## Required figures
 
