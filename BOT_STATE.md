@@ -1,15 +1,15 @@
 # Bot State
 
-_Last updated: 2026-07-16 03:06 UTC by patrol_
+_Last updated: 2026-07-16 14:13 UTC by patrol_
 
 ## Queue
 
 | State | Count |
 |---|---|
-| Pending | 1 |
+| Pending | 0 |
 | Active (running/reviewing) | 0 |
 | Blocked | 0 |
-| Completed/Merged (all time) | 310 |
+| Completed/Merged (all time) | 337 |
 
 ## Recent Activity (last 5)
 
@@ -20,12 +20,6 @@ _Last updated: 2026-07-16 03:06 UTC by patrol_
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-16 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-16 |
 | #92 | panel-harvest #92 | completed/issue_closed_upstream | 2026-07-16 |
-
-## Waiting for Human
-
-- #95: fix: reconcile BOT_STATE.md completion claims with actual milestone checkpoint status
-- #85: [discussion] explore: CLI: Structured JSON Diff for Verifier Failures
-- #84: [discussion] explore: Enforce Runtime Locking for Cross-Platform Determinism
 
 ---
 _Maintained automatically by claude-bot-go patrol. Do not edit._
