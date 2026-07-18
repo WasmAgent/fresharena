@@ -1,15 +1,15 @@
 # Bot State
 
-_Last updated: 2026-07-18 06:35 UTC by patrol_
+_Last updated: 2026-07-18 07:14 UTC by patrol_
 
 ## Queue
 
 | State | Count |
 |---|---|
 | Pending | 0 |
-| Active (running/reviewing) | 1 |
+| Active (running/reviewing) | 0 |
 | Blocked | 2 |
-| Completed/Merged (all time) | 417 |
+| Completed/Merged (all time) | 418 |
 
 ## Recent Activity (last 5)
 
@@ -23,7 +23,6 @@ _Last updated: 2026-07-18 06:35 UTC by patrol_
 
 ## Waiting for Human
 
-- #105: [milestone Milestone 2] Implement runEval() function and core evaluation infrastructure in packages/core/src/runner/index.ts
 - #104: [milestone Milestone 2] Implement immunity pool generation pipeline to populate counterexamples from baseline solvers
 - #103: [milestone Milestone 2 ] `worlds/json-transform/immunity-pool-v0.json` contains 20+ confirmed counterexam...
 
