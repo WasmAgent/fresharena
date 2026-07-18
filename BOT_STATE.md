@@ -1,6 +1,6 @@
 # Bot State
 
-_Last updated: 2026-07-18 05:18 UTC by patrol_
+_Last updated: 2026-07-18 05:49 UTC by patrol_
 
 ## Queue
 
@@ -8,8 +8,8 @@ _Last updated: 2026-07-18 05:18 UTC by patrol_
 |---|---|
 | Pending | 1 |
 | Active (running/reviewing) | 0 |
-| Blocked | 1 |
-| Completed/Merged (all time) | 414 |
+| Blocked | 2 |
+| Completed/Merged (all time) | 415 |
 
 ## Recent Activity (last 5)
 
@@ -23,6 +23,7 @@ _Last updated: 2026-07-18 05:18 UTC by patrol_
 
 ## Waiting for Human
 
+- #104: [milestone Milestone 2] Implement immunity pool generation pipeline to populate counterexamples from baseline solvers
 - #103: [milestone Milestone 2 ] `worlds/json-transform/immunity-pool-v0.json` contains 20+ confirmed counterexam...
 
 ---
