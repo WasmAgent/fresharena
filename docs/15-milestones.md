@@ -32,3 +32,19 @@
 - [ ] `README.md` includes "Reproducing These Results" section with one-command verification
 - [ ] Three external agent projects confirm ability to reproduce baseline results
 - [ ] `docs/future-work.md` outlines extensions to additional task families beyond JSON transforms
+
+## Milestone 4 — Platform Expansion (Gate-conditional)
+
+> **Gate condition:** this milestone proceeds only if Milestone 2's
+> `docs/experiment-report.md` demonstrates a statistically significant rank
+> difference between fixed and fresh tasks. If the gate fails, this milestone
+> is suspended pending redesign. Do not open issues for this milestone until
+> the gate condition is confirmed.
+
+- [ ] `worlds/data-structure/` implements Data Structure World task family (insert/delete/query operations on trees and graphs) with verifier, random generator, and static task set of 50+ tasks
+- [ ] `worlds/state-machine/` implements State Machine World task family (reachability, invariant, and trace-equivalence tasks) with verifier and static task set of 50+ tasks
+- [ ] `packages/sdk/` exports public Solver, Generator, and Tester interfaces so external contributors can add new worlds without forking the core
+- [ ] `docs/sdk-guide.md` documents the Solver/Generator/Tester SDK with a worked example of adding a new world
+- [ ] Hosted arena: `arena/` service accepts solver submissions via API, runs evaluation, and publishes leaderboard; deployable via `docker compose up`
+- [ ] `open-agent-audit` integration: evaluation records exported as AEP evidence bundles via `packages/aep-export/`
+- [ ] `trace-pipeline` export: JSONL evaluation records streamed to `trace-pipeline` ingest endpoint; documented in `docs/integrations.md`
