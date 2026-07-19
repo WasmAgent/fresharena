@@ -1,10 +1,13 @@
 import {
   parseDiffPatchConstraints,
+  parseGraphConstraints,
   parseMergeConstraints,
   parseNormalizeConstraints,
   parseSchemaMigrationConstraints,
+  parseTreeConstraints,
 } from '@fresharena/faep-schema';
 import { sha256Hex } from './crypto.js';
+import { graphQuery, treeDelete, treeInsert, treeQuery } from './data_structure.js';
 import { apply, diff } from './diff_patch.js';
 import { merge } from './merge.js';
 import { normalize } from './normalize.js';
@@ -16,8 +19,17 @@ export interface VerifyInput {
   output: unknown;
   /** Raw `operation_spec.constraints` value from the task spec. */
   constraints: unknown;
-  /** Operation type: 'normalize', 'diff', 'patch', 'merge', or 'migrate' */
-  operationType?: 'normalize' | 'diff' | 'patch' | 'merge' | 'migrate';
+  /** Operation type from `operation_spec.type`. */
+  operationType?:
+    | 'normalize'
+    | 'diff'
+    | 'patch'
+    | 'merge'
+    | 'migrate'
+    | 'tree_insert'
+    | 'tree_delete'
+    | 'tree_query'
+    | 'graph_query';
 }
 
 export interface VerifyResult {
@@ -66,6 +78,26 @@ export function verify(input: VerifyInput): VerifyResult {
       failureReason = 'output does not match reference migrate output';
       break;
 
+    case 'tree_insert':
+      expected = verifyTreeInsert(input);
+      failureReason = 'output does not match reference tree insert output';
+      break;
+
+    case 'tree_delete':
+      expected = verifyTreeDelete(input);
+      failureReason = 'output does not match reference tree delete output';
+      break;
+
+    case 'tree_query':
+      expected = verifyTreeQuery(input);
+      failureReason = 'output does not match reference tree query output';
+      break;
+
+    case 'graph_query':
+      expected = verifyGraphQuery(input);
+      failureReason = 'output does not match reference graph query output';
+      break;
+
     default:
       throw new Error(`Unknown operation type: ${operationType}`);
   }
@@ -85,7 +117,22 @@ export function verify(input: VerifyInput): VerifyResult {
 /**
  * Infer operation type from task ID.
  */
-function inferOperationType(taskId: string): 'normalize' | 'diff' | 'patch' | 'merge' | 'migrate' {
+function inferOperationType(
+  taskId: string,
+):
+  | 'normalize'
+  | 'diff'
+  | 'patch'
+  | 'merge'
+  | 'migrate'
+  | 'tree_insert'
+  | 'tree_delete'
+  | 'tree_query'
+  | 'graph_query' {
+  if (taskId.includes('bst_insert')) return 'tree_insert';
+  if (taskId.includes('bst_delete')) return 'tree_delete';
+  if (taskId.includes('bst_query')) return 'tree_query';
+  if (taskId.includes('graph_query')) return 'graph_query';
   if (taskId.includes('normalize')) return 'normalize';
   if (taskId.includes('diff')) return 'diff';
   if (taskId.includes('patch')) return 'patch';
@@ -159,6 +206,26 @@ function verifyMigrate(input: VerifyInput): unknown {
   return migrate(input.input, constraints);
 }
 
+function verifyTreeInsert(input: VerifyInput): unknown {
+  const constraints = parseTreeConstraints(input.constraints);
+  return treeInsert(input.input, constraints);
+}
+
+function verifyTreeDelete(input: VerifyInput): unknown {
+  const constraints = parseTreeConstraints(input.constraints);
+  return treeDelete(input.input, constraints);
+}
+
+function verifyTreeQuery(input: VerifyInput): unknown {
+  const constraints = parseTreeConstraints(input.constraints);
+  return treeQuery(input.input, constraints);
+}
+
+function verifyGraphQuery(input: VerifyInput): unknown {
+  const constraints = parseGraphConstraints(input.constraints);
+  return graphQuery(input.input, constraints);
+}
+
 /**
  * Helper to check if a value is a plain object.
  */
@@ -224,6 +291,26 @@ export function expectedHashFor(input: unknown, constraints: unknown, taskId?: s
     case 'migrate': {
       const migrateConstraints = parseSchemaMigrationConstraints(constraints);
       return sha256Hex(migrate(input, migrateConstraints));
+    }
+
+    case 'tree_insert': {
+      const treeConstraints = parseTreeConstraints(constraints);
+      return sha256Hex(treeInsert(input, treeConstraints));
+    }
+
+    case 'tree_delete': {
+      const treeConstraints = parseTreeConstraints(constraints);
+      return sha256Hex(treeDelete(input, treeConstraints));
+    }
+
+    case 'tree_query': {
+      const treeConstraints = parseTreeConstraints(constraints);
+      return sha256Hex(treeQuery(input, treeConstraints));
+    }
+
+    case 'graph_query': {
+      const graphConstraints = parseGraphConstraints(constraints);
+      return sha256Hex(graphQuery(input, graphConstraints));
     }
 
     default:

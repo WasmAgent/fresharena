@@ -1,0 +1,11 @@
+{
+  "generators": [
+    {
+      "id": "random-baseline",
+      "type": "random-baseline",
+      "description": "Seeded generator for BST insert/delete/query and graph query task instances",
+      "version": "0.1.0",
+      "entrypoint": "random-baseline/index.ts"
+    }
+  ]
+}

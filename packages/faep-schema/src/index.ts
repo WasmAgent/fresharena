@@ -7,10 +7,24 @@ export const TaskFamilySchema = z.enum([
   'json_transform.diff_patch.v0',
   'json_transform.merge.v0',
   'json_transform.schema_migration.v0',
+  'data_structure.bst_insert.v0',
+  'data_structure.bst_delete.v0',
+  'data_structure.bst_query.v0',
+  'data_structure.graph_query.v0',
 ]);
 export type TaskFamily = z.infer<typeof TaskFamilySchema>;
 
-export const OperationTypeSchema = z.enum(['patch', 'diff', 'merge', 'normalize', 'migrate']);
+export const OperationTypeSchema = z.enum([
+  'patch',
+  'diff',
+  'merge',
+  'normalize',
+  'migrate',
+  'tree_insert',
+  'tree_delete',
+  'tree_query',
+  'graph_query',
+]);
 export type OperationType = z.infer<typeof OperationTypeSchema>;
 
 export const TaskLimitsSchema = z.object({
@@ -142,6 +156,41 @@ export type SchemaMigrationConstraints = z.infer<typeof SchemaMigrationConstrain
 
 export function parseSchemaMigrationConstraints(constraints: unknown): SchemaMigrationConstraints {
   return SchemaMigrationConstraintsSchema.parse(constraints);
+}
+
+// ─── data_structure.v0 closed semantics constraints ──────────────────────────
+//
+// Data Structure World tasks operate on compact JSON encodings of binary search
+// trees and graphs. Trees are represented by insertion-order `values` arrays;
+// duplicate tree values are ignored. Graphs are represented by `nodes` and
+// `[from, to]` edge tuples. All query outputs are wrapped in `{ result: ... }`.
+
+export const TreeActionSchema = z.enum(['insert', 'delete', 'contains', 'inorder', 'height']);
+
+export const TreeConstraintsSchema = z.object({
+  structure: z.literal('bst'),
+  action: TreeActionSchema,
+  key: z.number().int().optional(),
+});
+export type TreeConstraints = z.infer<typeof TreeConstraintsSchema>;
+
+export function parseTreeConstraints(constraints: unknown): TreeConstraints {
+  return TreeConstraintsSchema.parse(constraints);
+}
+
+export const GraphQuerySchema = z.enum(['reachable', 'shortest_path_length', 'component_count']);
+
+export const GraphConstraintsSchema = z.object({
+  representation: z.literal('edge_list'),
+  query: GraphQuerySchema,
+  directed: z.boolean(),
+  source: z.string().optional(),
+  target: z.string().optional(),
+});
+export type GraphConstraints = z.infer<typeof GraphConstraintsSchema>;
+
+export function parseGraphConstraints(constraints: unknown): GraphConstraints {
+  return GraphConstraintsSchema.parse(constraints);
 }
 
 // ─── Solver ──────────────────────────────────────────────────────────────────

@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "verifier_package": {
+    "id": "data_structure_verifier",
+    "version": "0.1.0",
+    "reference_impl_hash": "data-structure-reference-v0",
+    "property_tests_hash": "data-structure-property-v0",
+    "metamorphic_tests_hash": "data-structure-metamorphic-v0",
+    "known_good_hash": "data-structure-static-v0",
+    "known_bad_hash": "data-structure-known-bad-v0",
+    "environment_hash": "phase0-env"
+  },
+  "upgrade_policy": {
+    "patch": "fix logs, task metadata, or docs only -- does not affect scores",
+    "minor": "add new counterexamples or task instances -- old scores preserved, new scores computed separately",
+    "major": "semantic definition change -- old and new leaderboards cannot be directly compared"
+  }
+}

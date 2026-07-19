@@ -1,0 +1,48 @@
+{
+  "world_id": "data-structure",
+  "version": "0.1.0",
+  "families": [
+    {
+      "id": "data_structure.bst_insert.v0",
+      "priority": "P0",
+      "description": "Insert an integer key into a binary search tree represented by insertion-order values",
+      "verifier": "data_structure_verifier",
+      "verifier_version": "0.1.0"
+    },
+    {
+      "id": "data_structure.bst_delete.v0",
+      "priority": "P0",
+      "description": "Delete an integer key from a binary search tree represented by insertion-order values",
+      "verifier": "data_structure_verifier",
+      "verifier_version": "0.1.0"
+    },
+    {
+      "id": "data_structure.bst_query.v0",
+      "priority": "P0",
+      "description": "Answer contains, inorder traversal, and height queries over a binary search tree",
+      "verifier": "data_structure_verifier",
+      "verifier_version": "0.1.0"
+    },
+    {
+      "id": "data_structure.graph_query.v0",
+      "priority": "P1",
+      "description": "Answer reachability, shortest-path length, and component-count queries over edge-list graphs",
+      "verifier": "data_structure_verifier",
+      "verifier_version": "0.1.0"
+    }
+  ],
+  "solvability_band": {
+    "target_min": 0.20,
+    "target_max": 0.90,
+    "warmup_threshold": 0.90,
+    "review_threshold": 0.01
+  },
+  "admissibility": {
+    "deterministic": true,
+    "reference_solvable": true,
+    "duplicate_distance_above_threshold": true,
+    "no_ambiguous_policy": true,
+    "cost_within_limit": true,
+    "engineering_relevance_min": true
+  }
+}

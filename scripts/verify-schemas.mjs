@@ -11,6 +11,11 @@ const REQUIRED_SCHEMAS = [
   'worlds/json-transform/generator/generators.json',
   'worlds/json-transform/testers/testers.json',
   'worlds/json-transform/immunity-pool/pool.json',
+  'worlds/data-structure/world.json',
+  'worlds/data-structure/verifier/verifier-package.json',
+  'worlds/data-structure/generator/generators.json',
+  'worlds/data-structure/static/tasks.json',
+  'worlds/data-structure/immunity-pool/pool.json',
   'records/samples/.gitkeep',
 ];
 

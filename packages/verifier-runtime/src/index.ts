@@ -6,6 +6,7 @@ export { normalize } from './normalize.js';
 export { diff, apply } from './diff_patch.js';
 export { merge } from './merge.js';
 export { migrate } from './schema_migration.js';
+export { graphQuery, treeDelete, treeInsert, treeQuery } from './data_structure.js';
 export {
   verify,
   expectedHashFor,
