@@ -20,45 +20,10 @@ import {
   sha256OfString,
   shortHash,
 } from '@fresharena/verifier-runtime';
+import { Rng } from '../../shared/rng.js';
 
 const VERIFIER_REF = { package: 'json_transform_verifier', version: '0.1.0' };
 const DEFAULT_LIMITS = { timeout_ms: 3000, memory_mb: 256, max_source_bytes: 20000 };
-
-// Simple deterministic RNG
-class Rng {
-  private state: number;
-
-  constructor(seed: number) {
-    this.state = seed;
-  }
-
-  static fromSeed(seedStr: string): Rng {
-    let hash = 0;
-    for (let i = 0; i < seedStr.length; i++) {
-      const char = seedStr.charCodeAt(i);
-      hash = (hash << 5) - hash + char;
-      hash |= 0;
-    }
-    return new Rng(Math.abs(hash));
-  }
-
-  next(): number {
-    this.state = (this.state * 1103515245 + 12345) & 0x7fffffff;
-    return this.state / 0x7fffffff;
-  }
-
-  bool(): boolean {
-    return this.next() < 0.5;
-  }
-
-  int(min: number, max: number): number {
-    return Math.floor(this.next() * (max - min + 1)) + min;
-  }
-
-  pick<T>(arr: readonly T[]): T {
-    return arr[this.int(0, arr.length - 1)];
-  }
-}
 
 // Adversarial input generators targeting edge cases
 
