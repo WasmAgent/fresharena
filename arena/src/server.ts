@@ -199,7 +199,9 @@ export function createArenaServer(
 
     store.addEvaluation(evaluation);
 
-    // Fire-and-forget: evaluation runs asynchronously
+    // Evaluation runs asynchronously; errors are caught inside runEvaluation
+    // and persisted to the store as status='error'. The .catch() is a
+    // defensive guard against any unexpected unhandled rejection.
     void runEvaluation({
       evaluationId,
       submissionId,
@@ -209,6 +211,10 @@ export function createArenaServer(
       taskCount: data.task_count,
       rootSeed: data.root_seed,
       store,
+    }).catch(() => {
+      // runEvaluation already updates the store with status='error';
+      // this catch only prevents an unhandled rejection if the inner
+      // catch itself fails (e.g. store.updateEvaluation throws).
     });
 
     return json(evaluation, 202);

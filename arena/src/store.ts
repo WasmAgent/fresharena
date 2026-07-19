@@ -14,6 +14,11 @@ export class ArenaStore {
   private readonly submissions = new Map<string, SubmissionResponse>();
   private readonly evaluations = new Map<string, EvaluationResponse>();
 
+  clear(): void {
+    this.submissions.clear();
+    this.evaluations.clear();
+  }
+
   addSubmission(submission: SubmissionResponse): void {
     this.submissions.set(submission.submission_id, submission);
   }

@@ -12,12 +12,7 @@ beforeAll(() => {
 });
 
 afterEach(() => {
-  // Clear store between tests for isolation
-  for (const key of [
-    ...arena.store.getEvaluation('x') ? ['x'] : [],
-  ]) {
-    // Store only exposes get methods; tests create fresh submissions
-  }
+  arena.store.clear();
 });
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -216,6 +211,32 @@ describe('POST /api/v1/submissions/:id/evaluate', () => {
     expect(status).toBe(202);
     expect(body.task_count).toBe(20);
     expect(body.family).toBe('json_transform.normalize.v0');
+  });
+
+  test('evaluation with unknown solver_id completes with error status', async () => {
+    const created = await postJson('/api/v1/submissions', {
+      solver_id: 'nonexistent-solver',
+    });
+    const submissionId = created.body.submission_id as string;
+
+    const { status, body } = await postJson(
+      `/api/v1/submissions/${submissionId}/evaluate`,
+      { task_count: 1, root_seed: 'unknown-solver-test' },
+    );
+
+    expect(status).toBe(202);
+    const evaluationId = body.evaluation_id as string;
+
+    // Wait for async evaluation to finish
+    await Bun.sleep(500);
+
+    const { status: evalStatus, body: evalBody } = await getJson(
+      `/api/v1/evaluations/${evaluationId}`,
+    );
+
+    expect(evalStatus).toBe(200);
+    expect(evalBody.status).toBe('error');
+    expect(evalBody.error).toBeDefined();
   });
 });
 
