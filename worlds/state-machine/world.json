@@ -1,0 +1,41 @@
+{
+  "world_id": "state-machine",
+  "version": "0.1.0",
+  "families": [
+    {
+      "id": "state_machine.reachability.v0",
+      "priority": "P0",
+      "description": "Determine whether a target state is reachable from an initial state under a finite transition system",
+      "verifier": "state_machine_verifier",
+      "verifier_version": "0.1.0"
+    },
+    {
+      "id": "state_machine.invariant.v0",
+      "priority": "P0",
+      "description": "Check whether every reachable state satisfies a declared invariant predicate",
+      "verifier": "state_machine_verifier",
+      "verifier_version": "0.1.0"
+    },
+    {
+      "id": "state_machine.trace_equivalence.v0",
+      "priority": "P1",
+      "description": "Decide whether two deterministic labeled transition systems admit identical bounded trace languages",
+      "verifier": "state_machine_verifier",
+      "verifier_version": "0.1.0"
+    }
+  ],
+  "solvability_band": {
+    "target_min": 0.20,
+    "target_max": 0.90,
+    "warmup_threshold": 0.90,
+    "review_threshold": 0.01
+  },
+  "admissibility": {
+    "deterministic": true,
+    "reference_solvable": true,
+    "duplicate_distance_above_threshold": true,
+    "no_ambiguous_policy": true,
+    "cost_within_limit": true,
+    "engineering_relevance_min": true
+  }
+}
