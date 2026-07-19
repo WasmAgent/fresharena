@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1.0",
+  "verifier_package": {
+    "id": "state_machine_verifier",
+    "version": "0.1.0",
+    "entrypoint": "index.ts",
+    "reference_impl_hash": "state-machine-reference-0.1.0",
+    "property_tests_hash": "state-machine-property-0.1.0",
+    "metamorphic_tests_hash": "state-machine-metamorphic-0.1.0",
+    "known_good_hash": "state-machine-known-good-0.1.0",
+    "known_bad_hash": "state-machine-known-bad-0.1.0",
+    "environment_hash": "state-machine-env-0.1.0"
+  },
+  "semantics": {
+    "reachability": "Breadth-first search over the explicit finite transition relation from initial_state; output is true exactly when target_state is reachable.",
+    "invariant": "Breadth-first search over the explicit finite transition relation from initial_state; output is true exactly when every reachable state satisfies the invariant predicate.",
+    "trace_equivalence": "Enumerate all action-label traces up to max_depth from each initial state; output is true exactly when the two trace-language sets are equal."
+  },
+  "upgrade_policy": {
+    "patch": "fix logs or docs only - does not affect scores",
+    "minor": "add new counterexamples or properties - old scores preserved, new scores computed separately",
+    "major": "semantic definition change - old and new leaderboards cannot be directly compared"
+  }
+}

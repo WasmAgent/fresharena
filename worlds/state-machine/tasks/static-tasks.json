@@ -1,0 +1,993 @@
+{
+  "schema_version": "0.1.0",
+  "world_id": "state-machine",
+  "version": "0.1.0",
+  "task_count": 54,
+  "families": {
+    "state_machine.reachability.v0": 18,
+    "state_machine.invariant.v0": 18,
+    "state_machine.trace_equivalence.v0": 18
+  },
+  "tasks": [
+    {
+      "id": "state-machine-reachability-0001",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["queued", "running", "succeeded", "failed"],
+        "initial_state": "queued",
+        "target_state": "succeeded",
+        "transitions": [
+          { "from": "queued", "action": "start", "to": "running" },
+          { "from": "running", "action": "complete", "to": "succeeded" },
+          { "from": "running", "action": "error", "to": "failed" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0002",
+      "family": "state_machine.reachability.v0",
+      "answer": false,
+      "spec": {
+        "states": ["idle", "warming", "ready", "retired"],
+        "initial_state": "idle",
+        "target_state": "retired",
+        "transitions": [
+          { "from": "idle", "action": "boot", "to": "warming" },
+          { "from": "warming", "action": "ok", "to": "ready" },
+          { "from": "ready", "action": "reload", "to": "warming" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0003",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["a", "b", "c", "d", "e"],
+        "initial_state": "a",
+        "target_state": "e",
+        "transitions": [
+          { "from": "a", "action": "ab", "to": "b" },
+          { "from": "b", "action": "bc", "to": "c" },
+          { "from": "c", "action": "cd", "to": "d" },
+          { "from": "d", "action": "de", "to": "e" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0004",
+      "family": "state_machine.reachability.v0",
+      "answer": false,
+      "spec": {
+        "states": ["north", "east", "south", "west", "center"],
+        "initial_state": "north",
+        "target_state": "center",
+        "transitions": [
+          { "from": "north", "action": "turn", "to": "east" },
+          { "from": "east", "action": "turn", "to": "south" },
+          { "from": "south", "action": "turn", "to": "west" },
+          { "from": "west", "action": "turn", "to": "north" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0005",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["draft", "review", "approved", "published", "archived"],
+        "initial_state": "draft",
+        "target_state": "archived",
+        "transitions": [
+          { "from": "draft", "action": "submit", "to": "review" },
+          { "from": "review", "action": "approve", "to": "approved" },
+          { "from": "approved", "action": "publish", "to": "published" },
+          { "from": "published", "action": "archive", "to": "archived" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0006",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["s0", "s1", "s2", "s3"],
+        "initial_state": "s0",
+        "target_state": "s3",
+        "transitions": [
+          { "from": "s0", "action": "x", "to": "s1" },
+          { "from": "s0", "action": "y", "to": "s2" },
+          { "from": "s2", "action": "z", "to": "s3" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0007",
+      "family": "state_machine.reachability.v0",
+      "answer": false,
+      "spec": {
+        "states": ["s0", "s1", "s2", "s3"],
+        "initial_state": "s0",
+        "target_state": "s3",
+        "transitions": [
+          { "from": "s0", "action": "x", "to": "s1" },
+          { "from": "s1", "action": "loop", "to": "s1" },
+          { "from": "s2", "action": "z", "to": "s3" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0008",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["locked", "unlocked", "alarm"],
+        "initial_state": "locked",
+        "target_state": "alarm",
+        "transitions": [
+          { "from": "locked", "action": "badge", "to": "unlocked" },
+          { "from": "locked", "action": "force", "to": "alarm" },
+          { "from": "unlocked", "action": "close", "to": "locked" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0009",
+      "family": "state_machine.reachability.v0",
+      "answer": false,
+      "spec": {
+        "states": ["cold", "warm", "hot", "melted"],
+        "initial_state": "cold",
+        "target_state": "melted",
+        "transitions": [
+          { "from": "cold", "action": "heat", "to": "warm" },
+          { "from": "warm", "action": "heat", "to": "hot" },
+          { "from": "hot", "action": "cool", "to": "warm" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0010",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["p0", "p1", "p2", "p3", "p4"],
+        "initial_state": "p0",
+        "target_state": "p4",
+        "transitions": [
+          { "from": "p0", "action": "a", "to": "p1" },
+          { "from": "p1", "action": "b", "to": "p2" },
+          { "from": "p2", "action": "c", "to": "p0" },
+          { "from": "p2", "action": "d", "to": "p3" },
+          { "from": "p3", "action": "e", "to": "p4" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0011",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["new", "validated", "queued", "sent", "bounced"],
+        "initial_state": "new",
+        "target_state": "bounced",
+        "transitions": [
+          { "from": "new", "action": "validate", "to": "validated" },
+          { "from": "validated", "action": "enqueue", "to": "queued" },
+          { "from": "queued", "action": "send", "to": "sent" },
+          { "from": "sent", "action": "reject", "to": "bounced" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0012",
+      "family": "state_machine.reachability.v0",
+      "answer": false,
+      "spec": {
+        "states": ["clean", "dirty", "washing", "drying"],
+        "initial_state": "clean",
+        "target_state": "drying",
+        "transitions": [
+          { "from": "clean", "action": "use", "to": "dirty" },
+          { "from": "dirty", "action": "wash", "to": "washing" },
+          { "from": "washing", "action": "finish", "to": "clean" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0013",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["root", "left", "right", "leaf1", "leaf2"],
+        "initial_state": "root",
+        "target_state": "leaf2",
+        "transitions": [
+          { "from": "root", "action": "l", "to": "left" },
+          { "from": "root", "action": "r", "to": "right" },
+          { "from": "right", "action": "down", "to": "leaf2" },
+          { "from": "left", "action": "down", "to": "leaf1" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0014",
+      "family": "state_machine.reachability.v0",
+      "answer": false,
+      "spec": {
+        "states": ["root", "left", "right", "leaf1", "leaf2"],
+        "initial_state": "left",
+        "target_state": "leaf2",
+        "transitions": [
+          { "from": "root", "action": "l", "to": "left" },
+          { "from": "root", "action": "r", "to": "right" },
+          { "from": "right", "action": "down", "to": "leaf2" },
+          { "from": "left", "action": "down", "to": "leaf1" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0015",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["empty", "one", "two", "full", "overflow"],
+        "initial_state": "empty",
+        "target_state": "overflow",
+        "transitions": [
+          { "from": "empty", "action": "add", "to": "one" },
+          { "from": "one", "action": "add", "to": "two" },
+          { "from": "two", "action": "add", "to": "full" },
+          { "from": "full", "action": "add", "to": "overflow" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0016",
+      "family": "state_machine.reachability.v0",
+      "answer": false,
+      "spec": {
+        "states": ["empty", "one", "two", "full", "overflow"],
+        "initial_state": "empty",
+        "target_state": "overflow",
+        "transitions": [
+          { "from": "empty", "action": "add", "to": "one" },
+          { "from": "one", "action": "remove", "to": "empty" },
+          { "from": "one", "action": "add", "to": "two" },
+          { "from": "two", "action": "remove", "to": "one" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0017",
+      "family": "state_machine.reachability.v0",
+      "answer": true,
+      "spec": {
+        "states": ["red", "green", "yellow", "flashing"],
+        "initial_state": "red",
+        "target_state": "flashing",
+        "transitions": [
+          { "from": "red", "action": "timer", "to": "green" },
+          { "from": "green", "action": "timer", "to": "yellow" },
+          { "from": "yellow", "action": "timer", "to": "red" },
+          { "from": "yellow", "action": "fault", "to": "flashing" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-reachability-0018",
+      "family": "state_machine.reachability.v0",
+      "answer": false,
+      "spec": {
+        "states": ["red", "green", "yellow", "flashing"],
+        "initial_state": "green",
+        "target_state": "flashing",
+        "transitions": [
+          { "from": "green", "action": "timer", "to": "yellow" },
+          { "from": "yellow", "action": "timer", "to": "red" },
+          { "from": "red", "action": "timer", "to": "green" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0001",
+      "family": "state_machine.invariant.v0",
+      "answer": true,
+      "spec": {
+        "states": ["idle", "running", "paused"],
+        "initial_state": "idle",
+        "invariant": { "forbidden_states": ["failed"] },
+        "transitions": [
+          { "from": "idle", "action": "start", "to": "running" },
+          { "from": "running", "action": "pause", "to": "paused" },
+          { "from": "paused", "action": "resume", "to": "running" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0002",
+      "family": "state_machine.invariant.v0",
+      "answer": false,
+      "spec": {
+        "states": ["idle", "running", "failed"],
+        "initial_state": "idle",
+        "invariant": { "forbidden_states": ["failed"] },
+        "transitions": [
+          { "from": "idle", "action": "start", "to": "running" },
+          { "from": "running", "action": "crash", "to": "failed" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0003",
+      "family": "state_machine.invariant.v0",
+      "answer": true,
+      "spec": {
+        "states": ["guest", "user", "admin"],
+        "initial_state": "guest",
+        "invariant": { "required_prefix": "not_root", "state_labels": { "guest": ["not_root"], "user": ["not_root"], "admin": ["not_root", "privileged"] } },
+        "transitions": [
+          { "from": "guest", "action": "login", "to": "user" },
+          { "from": "user", "action": "elevate", "to": "admin" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0004",
+      "family": "state_machine.invariant.v0",
+      "answer": false,
+      "spec": {
+        "states": ["guest", "user", "root"],
+        "initial_state": "guest",
+        "invariant": { "required_prefix": "not_root", "state_labels": { "guest": ["not_root"], "user": ["not_root"], "root": ["privileged"] } },
+        "transitions": [
+          { "from": "guest", "action": "login", "to": "user" },
+          { "from": "user", "action": "sudo", "to": "root" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0005",
+      "family": "state_machine.invariant.v0",
+      "answer": true,
+      "spec": {
+        "states": ["zero", "one", "two"],
+        "initial_state": "zero",
+        "invariant": { "max_rank": 2, "state_ranks": { "zero": 0, "one": 1, "two": 2 } },
+        "transitions": [
+          { "from": "zero", "action": "inc", "to": "one" },
+          { "from": "one", "action": "inc", "to": "two" },
+          { "from": "two", "action": "dec", "to": "one" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0006",
+      "family": "state_machine.invariant.v0",
+      "answer": false,
+      "spec": {
+        "states": ["zero", "one", "two", "three"],
+        "initial_state": "zero",
+        "invariant": { "max_rank": 2, "state_ranks": { "zero": 0, "one": 1, "two": 2, "three": 3 } },
+        "transitions": [
+          { "from": "zero", "action": "inc", "to": "one" },
+          { "from": "one", "action": "inc", "to": "two" },
+          { "from": "two", "action": "inc", "to": "three" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0007",
+      "family": "state_machine.invariant.v0",
+      "answer": true,
+      "spec": {
+        "states": ["closed", "opening", "open", "closing"],
+        "initial_state": "closed",
+        "invariant": { "forbidden_states": ["jammed"] },
+        "transitions": [
+          { "from": "closed", "action": "open", "to": "opening" },
+          { "from": "opening", "action": "done", "to": "open" },
+          { "from": "open", "action": "close", "to": "closing" },
+          { "from": "closing", "action": "done", "to": "closed" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0008",
+      "family": "state_machine.invariant.v0",
+      "answer": false,
+      "spec": {
+        "states": ["closed", "opening", "open", "jammed"],
+        "initial_state": "closed",
+        "invariant": { "forbidden_states": ["jammed"] },
+        "transitions": [
+          { "from": "closed", "action": "open", "to": "opening" },
+          { "from": "opening", "action": "fault", "to": "jammed" },
+          { "from": "opening", "action": "done", "to": "open" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0009",
+      "family": "state_machine.invariant.v0",
+      "answer": true,
+      "spec": {
+        "states": ["blue", "green", "yellow"],
+        "initial_state": "blue",
+        "invariant": { "allowed_states": ["blue", "green", "yellow"] },
+        "transitions": [
+          { "from": "blue", "action": "next", "to": "green" },
+          { "from": "green", "action": "next", "to": "yellow" },
+          { "from": "yellow", "action": "next", "to": "blue" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0010",
+      "family": "state_machine.invariant.v0",
+      "answer": false,
+      "spec": {
+        "states": ["blue", "green", "yellow", "black"],
+        "initial_state": "blue",
+        "invariant": { "allowed_states": ["blue", "green", "yellow"] },
+        "transitions": [
+          { "from": "blue", "action": "next", "to": "green" },
+          { "from": "green", "action": "fault", "to": "black" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0011",
+      "family": "state_machine.invariant.v0",
+      "answer": true,
+      "spec": {
+        "states": ["draft", "review", "approved"],
+        "initial_state": "draft",
+        "invariant": { "forbidden_states": ["published"] },
+        "transitions": [
+          { "from": "draft", "action": "submit", "to": "review" },
+          { "from": "review", "action": "approve", "to": "approved" },
+          { "from": "approved", "action": "revise", "to": "draft" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0012",
+      "family": "state_machine.invariant.v0",
+      "answer": false,
+      "spec": {
+        "states": ["draft", "review", "approved", "published"],
+        "initial_state": "draft",
+        "invariant": { "forbidden_states": ["published"] },
+        "transitions": [
+          { "from": "draft", "action": "submit", "to": "review" },
+          { "from": "review", "action": "approve", "to": "approved" },
+          { "from": "approved", "action": "publish", "to": "published" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0013",
+      "family": "state_machine.invariant.v0",
+      "answer": true,
+      "spec": {
+        "states": ["safe0", "safe1", "safe2", "unsafe"],
+        "initial_state": "safe0",
+        "invariant": { "forbidden_states": ["unsafe"] },
+        "transitions": [
+          { "from": "safe0", "action": "a", "to": "safe1" },
+          { "from": "safe1", "action": "b", "to": "safe2" },
+          { "from": "safe2", "action": "c", "to": "safe0" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0014",
+      "family": "state_machine.invariant.v0",
+      "answer": false,
+      "spec": {
+        "states": ["safe0", "safe1", "safe2", "unsafe"],
+        "initial_state": "safe0",
+        "invariant": { "forbidden_states": ["unsafe"] },
+        "transitions": [
+          { "from": "safe0", "action": "a", "to": "safe1" },
+          { "from": "safe1", "action": "b", "to": "safe2" },
+          { "from": "safe2", "action": "c", "to": "unsafe" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0015",
+      "family": "state_machine.invariant.v0",
+      "answer": true,
+      "spec": {
+        "states": ["low", "medium", "high"],
+        "initial_state": "low",
+        "invariant": { "max_rank": 3, "state_ranks": { "low": 1, "medium": 2, "high": 3 } },
+        "transitions": [
+          { "from": "low", "action": "raise", "to": "medium" },
+          { "from": "medium", "action": "raise", "to": "high" },
+          { "from": "high", "action": "lower", "to": "medium" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0016",
+      "family": "state_machine.invariant.v0",
+      "answer": false,
+      "spec": {
+        "states": ["low", "medium", "high", "critical"],
+        "initial_state": "low",
+        "invariant": { "max_rank": 3, "state_ranks": { "low": 1, "medium": 2, "high": 3, "critical": 4 } },
+        "transitions": [
+          { "from": "low", "action": "raise", "to": "medium" },
+          { "from": "medium", "action": "raise", "to": "high" },
+          { "from": "high", "action": "raise", "to": "critical" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0017",
+      "family": "state_machine.invariant.v0",
+      "answer": true,
+      "spec": {
+        "states": ["clean", "dirty", "washing"],
+        "initial_state": "clean",
+        "invariant": { "allowed_states": ["clean", "dirty", "washing"] },
+        "transitions": [
+          { "from": "clean", "action": "use", "to": "dirty" },
+          { "from": "dirty", "action": "wash", "to": "washing" },
+          { "from": "washing", "action": "finish", "to": "clean" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-invariant-0018",
+      "family": "state_machine.invariant.v0",
+      "answer": false,
+      "spec": {
+        "states": ["clean", "dirty", "washing", "lost"],
+        "initial_state": "clean",
+        "invariant": { "allowed_states": ["clean", "dirty", "washing"] },
+        "transitions": [
+          { "from": "clean", "action": "use", "to": "dirty" },
+          { "from": "dirty", "action": "misplace", "to": "lost" }
+        ]
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0001",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": true,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["l0", "l1", "l2"],
+          "initial_state": "l0",
+          "transitions": [
+            { "from": "l0", "action": "a", "to": "l1" },
+            { "from": "l1", "action": "b", "to": "l2" }
+          ]
+        },
+        "right": {
+          "states": ["r0", "r1", "r2"],
+          "initial_state": "r0",
+          "transitions": [
+            { "from": "r0", "action": "a", "to": "r1" },
+            { "from": "r1", "action": "b", "to": "r2" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0002",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": false,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["l0", "l1", "l2"],
+          "initial_state": "l0",
+          "transitions": [
+            { "from": "l0", "action": "a", "to": "l1" },
+            { "from": "l1", "action": "b", "to": "l2" }
+          ]
+        },
+        "right": {
+          "states": ["r0", "r1", "r2"],
+          "initial_state": "r0",
+          "transitions": [
+            { "from": "r0", "action": "a", "to": "r1" },
+            { "from": "r1", "action": "c", "to": "r2" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0003",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": true,
+      "spec": {
+        "max_depth": 1,
+        "left": {
+          "states": ["s", "x", "y"],
+          "initial_state": "s",
+          "transitions": [
+            { "from": "s", "action": "read", "to": "x" },
+            { "from": "s", "action": "write", "to": "y" }
+          ]
+        },
+        "right": {
+          "states": ["q", "m", "n"],
+          "initial_state": "q",
+          "transitions": [
+            { "from": "q", "action": "write", "to": "n" },
+            { "from": "q", "action": "read", "to": "m" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0004",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": false,
+      "spec": {
+        "max_depth": 1,
+        "left": {
+          "states": ["s", "x", "y"],
+          "initial_state": "s",
+          "transitions": [
+            { "from": "s", "action": "read", "to": "x" },
+            { "from": "s", "action": "write", "to": "y" }
+          ]
+        },
+        "right": {
+          "states": ["q", "m"],
+          "initial_state": "q",
+          "transitions": [
+            { "from": "q", "action": "read", "to": "m" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0005",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": true,
+      "spec": {
+        "max_depth": 3,
+        "left": {
+          "states": ["a0", "a1"],
+          "initial_state": "a0",
+          "transitions": [
+            { "from": "a0", "action": "tick", "to": "a1" },
+            { "from": "a1", "action": "tick", "to": "a0" }
+          ]
+        },
+        "right": {
+          "states": ["b0", "b1"],
+          "initial_state": "b0",
+          "transitions": [
+            { "from": "b0", "action": "tick", "to": "b1" },
+            { "from": "b1", "action": "tick", "to": "b0" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0006",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": false,
+      "spec": {
+        "max_depth": 3,
+        "left": {
+          "states": ["a0", "a1"],
+          "initial_state": "a0",
+          "transitions": [
+            { "from": "a0", "action": "tick", "to": "a1" },
+            { "from": "a1", "action": "tick", "to": "a0" }
+          ]
+        },
+        "right": {
+          "states": ["b0", "b1"],
+          "initial_state": "b0",
+          "transitions": [
+            { "from": "b0", "action": "tick", "to": "b1" },
+            { "from": "b1", "action": "tock", "to": "b0" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0007",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": true,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["i", "j", "k"],
+          "initial_state": "i",
+          "transitions": [
+            { "from": "i", "action": "open", "to": "j" },
+            { "from": "j", "action": "close", "to": "k" }
+          ]
+        },
+        "right": {
+          "states": ["u", "v", "w", "x"],
+          "initial_state": "u",
+          "transitions": [
+            { "from": "u", "action": "open", "to": "v" },
+            { "from": "v", "action": "close", "to": "w" },
+            { "from": "x", "action": "noise", "to": "x" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0008",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": false,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["i", "j", "k"],
+          "initial_state": "i",
+          "transitions": [
+            { "from": "i", "action": "open", "to": "j" },
+            { "from": "j", "action": "close", "to": "k" }
+          ]
+        },
+        "right": {
+          "states": ["u", "v", "w"],
+          "initial_state": "u",
+          "transitions": [
+            { "from": "u", "action": "open", "to": "v" },
+            { "from": "v", "action": "close", "to": "w" },
+            { "from": "v", "action": "cancel", "to": "u" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0009",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": true,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["s0", "s1"],
+          "initial_state": "s0",
+          "transitions": [
+            { "from": "s0", "action": "a", "to": "s1" },
+            { "from": "s0", "action": "b", "to": "s1" }
+          ]
+        },
+        "right": {
+          "states": ["t0", "t1"],
+          "initial_state": "t0",
+          "transitions": [
+            { "from": "t0", "action": "b", "to": "t1" },
+            { "from": "t0", "action": "a", "to": "t1" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0010",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": false,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["s0", "s1"],
+          "initial_state": "s0",
+          "transitions": [
+            { "from": "s0", "action": "a", "to": "s1" },
+            { "from": "s0", "action": "b", "to": "s1" }
+          ]
+        },
+        "right": {
+          "states": ["t0", "t1"],
+          "initial_state": "t0",
+          "transitions": [
+            { "from": "t0", "action": "a", "to": "t1" },
+            { "from": "t1", "action": "b", "to": "t0" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0011",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": true,
+      "spec": {
+        "max_depth": 0,
+        "left": {
+          "states": ["only"],
+          "initial_state": "only",
+          "transitions": []
+        },
+        "right": {
+          "states": ["start", "other"],
+          "initial_state": "start",
+          "transitions": [
+            { "from": "other", "action": "hidden", "to": "start" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0012",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": false,
+      "spec": {
+        "max_depth": 1,
+        "left": {
+          "states": ["only"],
+          "initial_state": "only",
+          "transitions": []
+        },
+        "right": {
+          "states": ["start", "other"],
+          "initial_state": "start",
+          "transitions": [
+            { "from": "start", "action": "visible", "to": "other" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0013",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": true,
+      "spec": {
+        "max_depth": 3,
+        "left": {
+          "states": ["a", "b", "c"],
+          "initial_state": "a",
+          "transitions": [
+            { "from": "a", "action": "x", "to": "b" },
+            { "from": "b", "action": "y", "to": "c" },
+            { "from": "c", "action": "z", "to": "c" }
+          ]
+        },
+        "right": {
+          "states": ["d", "e", "f"],
+          "initial_state": "d",
+          "transitions": [
+            { "from": "d", "action": "x", "to": "e" },
+            { "from": "e", "action": "y", "to": "f" },
+            { "from": "f", "action": "z", "to": "f" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0014",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": false,
+      "spec": {
+        "max_depth": 3,
+        "left": {
+          "states": ["a", "b", "c"],
+          "initial_state": "a",
+          "transitions": [
+            { "from": "a", "action": "x", "to": "b" },
+            { "from": "b", "action": "y", "to": "c" },
+            { "from": "c", "action": "z", "to": "c" }
+          ]
+        },
+        "right": {
+          "states": ["d", "e", "f"],
+          "initial_state": "d",
+          "transitions": [
+            { "from": "d", "action": "x", "to": "e" },
+            { "from": "e", "action": "y", "to": "f" },
+            { "from": "f", "action": "q", "to": "f" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0015",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": true,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["m0", "m1", "m2"],
+          "initial_state": "m0",
+          "transitions": [
+            { "from": "m0", "action": "login", "to": "m1" },
+            { "from": "m1", "action": "logout", "to": "m2" }
+          ]
+        },
+        "right": {
+          "states": ["n0", "n1", "n2"],
+          "initial_state": "n0",
+          "transitions": [
+            { "from": "n0", "action": "login", "to": "n1" },
+            { "from": "n1", "action": "logout", "to": "n2" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0016",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": false,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["m0", "m1", "m2"],
+          "initial_state": "m0",
+          "transitions": [
+            { "from": "m0", "action": "login", "to": "m1" },
+            { "from": "m1", "action": "logout", "to": "m2" }
+          ]
+        },
+        "right": {
+          "states": ["n0", "n1", "n2"],
+          "initial_state": "n0",
+          "transitions": [
+            { "from": "n0", "action": "login", "to": "n1" },
+            { "from": "n1", "action": "refresh", "to": "n1" },
+            { "from": "n1", "action": "logout", "to": "n2" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0017",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": true,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["c0", "c1", "c2"],
+          "initial_state": "c0",
+          "transitions": [
+            { "from": "c0", "action": "connect", "to": "c1" },
+            { "from": "c1", "action": "send", "to": "c2" },
+            { "from": "c2", "action": "send", "to": "c2" }
+          ]
+        },
+        "right": {
+          "states": ["d0", "d1", "d2"],
+          "initial_state": "d0",
+          "transitions": [
+            { "from": "d0", "action": "connect", "to": "d1" },
+            { "from": "d1", "action": "send", "to": "d2" },
+            { "from": "d2", "action": "send", "to": "d2" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "state-machine-trace-equivalence-0018",
+      "family": "state_machine.trace_equivalence.v0",
+      "answer": false,
+      "spec": {
+        "max_depth": 2,
+        "left": {
+          "states": ["c0", "c1", "c2"],
+          "initial_state": "c0",
+          "transitions": [
+            { "from": "c0", "action": "connect", "to": "c1" },
+            { "from": "c1", "action": "send", "to": "c2" }
+          ]
+        },
+        "right": {
+          "states": ["d0", "d1", "d2"],
+          "initial_state": "d0",
+          "transitions": [
+            { "from": "d0", "action": "connect", "to": "d1" },
+            { "from": "d1", "action": "send", "to": "d2" },
+            { "from": "d1", "action": "drop", "to": "d0" }
+          ]
+        }
+      }
+    }
+  ]
+}
