@@ -1,15 +1,15 @@
 # Bot State
 
-_Last updated: 2026-07-19 19:48 UTC by patrol_
+_Last updated: 2026-07-19 20:16 UTC by patrol_
 
 ## Queue
 
 | State | Count |
 |---|---|
 | Pending | 0 |
-| Active (running/reviewing) | 1 |
-| Blocked | 1 |
-| Completed/Merged (all time) | 518 |
+| Active (running/reviewing) | 0 |
+| Blocked | 0 |
+| Completed/Merged (all time) | 520 |
 
 ## Recent Activity (last 5)
 
@@ -23,7 +23,6 @@ _Last updated: 2026-07-19 19:48 UTC by patrol_
 
 ## Waiting for Human
 
-- #117: Fix WasmAgent/fresharena#114 ([milestone Milestone 4 ] Hosted arena: `arena/` service accepts solver submissions via API
 - #104: [milestone Milestone 2] Implement immunity pool generation pipeline to populate counterexamples from baseline solvers
 - #103: [milestone Milestone 2 ] `worlds/json-transform/immunity-pool-v0.json` contains 20+ confirmed counterexam...
 
