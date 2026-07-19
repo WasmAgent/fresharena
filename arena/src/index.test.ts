@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, describe, expect, test } from 'bun:test';
-import { createArenaServer, ArenaStore } from './index.js';
+import { createArenaServer, ArenaStore, runEvaluation } from './index.js';
 import type { ArenaServer } from './index.js';
 
 /** Base URL for all test requests. */
@@ -133,6 +133,16 @@ describe('POST /api/v1/submissions', () => {
     const body = (await res.json()) as Record<string, unknown>;
     expect(body.error).toBe('Invalid JSON body');
   });
+
+  test('rejects unknown solver_id before creating a submission', async () => {
+    const { status, body } = await postJson('/api/v1/submissions', {
+      solver_id: 'nonexistent-solver',
+    });
+
+    expect(status).toBe(400);
+    expect(body.error).toBe('Unknown solver_id');
+    expect(body.solver_id).toBe('nonexistent-solver');
+  });
 });
 
 // ── Get submission endpoint ─────────────────────────────────────────────────
@@ -213,30 +223,19 @@ describe('POST /api/v1/submissions/:id/evaluate', () => {
     expect(body.family).toBe('json_transform.normalize.v0');
   });
 
-  test('evaluation with unknown solver_id completes with error status', async () => {
+  test('rejects invalid evaluate request body', async () => {
     const created = await postJson('/api/v1/submissions', {
-      solver_id: 'nonexistent-solver',
+      solver_id: 'reference',
     });
     const submissionId = created.body.submission_id as string;
 
     const { status, body } = await postJson(
       `/api/v1/submissions/${submissionId}/evaluate`,
-      { task_count: 1, root_seed: 'unknown-solver-test' },
+      { task_count: 0 },
     );
 
-    expect(status).toBe(202);
-    const evaluationId = body.evaluation_id as string;
-
-    // Wait for async evaluation to finish
-    await Bun.sleep(500);
-
-    const { status: evalStatus, body: evalBody } = await getJson(
-      `/api/v1/evaluations/${evaluationId}`,
-    );
-
-    expect(evalStatus).toBe(200);
-    expect(evalBody.status).toBe('error');
-    expect(evalBody.error).toBeDefined();
+    expect(status).toBe(400);
+    expect(body.error).toBe('Validation failed');
   });
 });
 
@@ -592,5 +591,41 @@ describe('ArenaStore', () => {
     const modelFixed = store.getLeaderboard('model_fixed', 'json_transform.normalize.v0');
     expect(modelFixed.length).toBe(1);
     expect(modelFixed[0].passed).toBe(8);
+  });
+});
+
+describe('runEvaluation', () => {
+  test('persists an error result for a stale unknown solver_id', async () => {
+    const store = new ArenaStore();
+    store.addEvaluation({
+      evaluation_id: 'eval-unknown',
+      submission_id: 'sub-unknown',
+      solver_id: 'nonexistent-solver',
+      track: 'non_llm',
+      family: 'json_transform.normalize.v0',
+      task_count: 1,
+      status: 'pending',
+      passed: 0,
+      failed: 0,
+      errors: 0,
+      total: 0,
+      records: [],
+      created_at: '2026-01-01T00:00:00Z',
+    });
+
+    const evaluation = await runEvaluation({
+      evaluationId: 'eval-unknown',
+      submissionId: 'sub-unknown',
+      solverId: 'nonexistent-solver',
+      track: 'non_llm',
+      family: 'json_transform.normalize.v0',
+      taskCount: 1,
+      rootSeed: 'unknown-solver-test',
+      store,
+    });
+
+    expect(evaluation.status).toBe('error');
+    expect(evaluation.error).toContain('unknown solver id');
+    expect(store.getEvaluation('eval-unknown')?.status).toBe('error');
   });
 });

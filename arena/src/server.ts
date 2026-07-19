@@ -134,6 +134,14 @@ export function createArenaServer(
     }
 
     const data = parsed.data;
+    const knownSolver = await findKnownSolver(data.solver_id);
+    if (knownSolver === undefined) {
+      return json(
+        { error: 'Unknown solver_id', solver_id: data.solver_id },
+        400,
+      );
+    }
+
     const submission: SubmissionResponse = {
       submission_id: crypto.randomUUID(),
       solver_id: data.solver_id,
@@ -243,10 +251,7 @@ export function createArenaServer(
 
   async function listKnownSolvers(): Promise<Response> {
     try {
-      const { listSolvers } = await import(
-        '@fresharena/core/solvers'
-      );
-      const solvers = listSolvers();
+      const solvers = await loadKnownSolvers();
       return json<SolversListResponse>({
         solvers: solvers.map((s: { id: string; track: string; description: string }) => ({
           id: s.id,
@@ -285,4 +290,20 @@ function json<T>(data: T, status = 200): Response {
       'X-Powered-By': 'FreshArena',
     },
   });
+}
+
+type KnownSolver = {
+  id: string;
+  track: string;
+  description: string;
+};
+
+async function loadKnownSolvers(): Promise<readonly KnownSolver[]> {
+  const { listSolvers } = await import('@fresharena/core/solvers');
+  return listSolvers();
+}
+
+async function findKnownSolver(id: string): Promise<KnownSolver | undefined> {
+  const solvers = await loadKnownSolvers();
+  return solvers.find((solver) => solver.id === id);
 }
