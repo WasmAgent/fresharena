@@ -49,6 +49,13 @@
         "@fresharena/faep-schema": "workspace:*",
       },
     },
+    "packages/sdk": {
+      "name": "@fresharena/sdk",
+      "version": "0.1.0",
+      "dependencies": {
+        "@fresharena/faep-schema": "workspace:*",
+      },
+    },
     "packages/verifier-runtime": {
       "name": "@fresharena/verifier-runtime",
       "version": "0.1.0",
@@ -135,6 +142,8 @@
     "@fresharena/faep-schema": ["@fresharena/faep-schema@workspace:packages/faep-schema"],
 
     "@fresharena/reporter": ["@fresharena/reporter@workspace:packages/reporter"],
+
+    "@fresharena/sdk": ["@fresharena/sdk@workspace:packages/sdk"],
 
     "@fresharena/solver-anthropic": ["@fresharena/solver-anthropic@workspace:solvers/llm/anthropic-compatible"],
 
