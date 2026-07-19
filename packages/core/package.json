@@ -30,6 +30,14 @@
     "./replay": {
       "import": "./dist/replay/index.js",
       "types": "./dist/replay/index.d.ts"
+    },
+    "./solvers": {
+      "import": "./dist/solvers/index.js",
+      "types": "./dist/solvers/index.d.ts"
+    },
+    "./rng": {
+      "import": "./dist/rng.js",
+      "types": "./dist/rng.d.ts"
     }
   },
   "files": ["dist"],

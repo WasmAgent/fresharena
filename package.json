@@ -8,6 +8,7 @@
   "packageManager": "bun@1.3.14",
   "workspaces": [
     "packages/*",
+    "arena",
     "solvers/non-llm/*",
     "solvers/llm/*"
   ],
