@@ -24,3 +24,11 @@ commands:
     cmd: node scripts/check-no-sensitive-info.mjs
     timeout: 1m
     level: 4
+  - name: strict-typecheck
+    cmd: "set -o pipefail && bun run typecheck -- -- --strict 2>&1 | head -50"
+    timeout: 3m
+    level: 4
+  - name: no-explicit-any
+    cmd: "set -o pipefail && bun run biome lint packages/ --only=suspicious/noExplicitAny 2>&1 | tail -30"
+    timeout: 2m
+    level: 4
