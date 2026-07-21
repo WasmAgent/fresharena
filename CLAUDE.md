@@ -33,7 +33,7 @@ Core research question: *Do solvers rank significantly differently on fixed vs. 
 |---|---|
 | Runtime evidence signing (AEP schema, AEP emitter) | `wasmagent-js` (`@wasmagent/aep`) |
 | Enterprise audit reports, regulatory control mapping | `open-agent-audit` |
-| Trust Passport specification and issuance | `agent-trust-infra` spec + `open-agent-audit` product |
+| Trust Passport specification and issuance | `open-agent-audit` (`@openagentaudit/passport`) |
 | Evidence admission score, benchmark contamination statistics (dataset-level) | `trace-pipeline` (`eval_trust`) |
 | MCP runtime policy enforcement | `wasmagent-js` |
 
