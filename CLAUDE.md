@@ -7,6 +7,44 @@ families, evaluates with deterministic verifiers, and runs submit-then-test adve
 
 Core research question: *Do solvers rank significantly differently on fixed vs. fresh tasks?*
 
+
+## Repository maturity
+
+| | |
+|---|---|
+| **Status** | Research |
+| **Contract stability** | Evolving |
+| **Recommended for** | Evaluation researchers; agent project owners validating their solver ranking |
+| **Not recommended for** | Production compliance reporting; substitute for `open-agent-audit` audit trail |
+
+## Repository Boundaries
+
+### This repository owns
+- FAEP record schema (`packages/faep-schema/`)
+- Evaluation engine (`packages/core/`)
+- CLI (`packages/cli/`)
+- Verifier runtime sandbox (`packages/verifier-runtime/`)
+- Task worlds (`worlds/`) — each world must serve a named research hypothesis
+- Solver adapters (`solvers/`)
+- Research docs and experiment design (`docs/`)
+
+### Other repositories own — do not duplicate here
+| Capability | Owner |
+|---|---|
+| Runtime evidence signing (AEP schema, AEP emitter) | `wasmagent-js` (`@wasmagent/aep`) |
+| Enterprise audit reports, regulatory control mapping | `open-agent-audit` |
+| Trust Passport specification and issuance | `agent-trust-infra` spec + `open-agent-audit` product |
+| Evidence admission score, benchmark contamination statistics (dataset-level) | `trace-pipeline` (`eval_trust`) |
+| MCP runtime policy enforcement | `wasmagent-js` |
+
+### Allowed cross-repo patterns
+- Export FAEP records to `open-agent-audit` via the audit adapter (Phase 3 roadmap item).
+- Export evaluation traces to `trace-pipeline` via the provenance export adapter.
+- Consume `agent-trust-infra` specs via versioned adapter, never copy schema definitions locally.
+- Per-task contamination likelihood (FAEP annotation, issue #96) is FreshArena scope; dataset-level contamination statistics belong in `trace-pipeline`.
+- New task worlds require: a named research hypothesis, baseline, and gate condition.
+- Platform features (hosted arena, marketplace) remain research infrastructure; they must not replicate the audit or runtime capabilities owned by other repos.
+
 ## Tech stack
 - TypeScript, Bun, Turbo monorepo
 - Packages: `faep-schema`, `core`, `cli`, `verifier-runtime`, `reporter`
