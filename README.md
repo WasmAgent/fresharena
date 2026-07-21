@@ -1,5 +1,13 @@
 # FreshArena
 
+| | |
+|---|---|
+| **Status** | Research |
+| **Contract stability** | Evolving |
+| **Recommended for** | Evaluation researchers; solver rank-comparison experiments |
+| **Not recommended for** | Production compliance reporting |
+
+
 FreshArena is a dynamic, verifiable, and adversarial evaluation protocol for coding agents.
 
 Instead of testing agents on a fixed set of public problems, FreshArena generates fresh task instances from versioned task families, evaluates submissions with deterministic verifier packages, and runs submit-then-test adversarial checks after the solver commits its answer.
