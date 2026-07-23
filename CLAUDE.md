@@ -31,7 +31,8 @@ Core research question: *Do solvers rank significantly differently on fixed vs. 
 ### Other repositories own — do not duplicate here
 | Capability | Owner |
 |---|---|
-| Runtime evidence signing (AEP schema, AEP emitter) | `wasmagent-js` (`@wasmagent/aep`) |
+| AEP + compliance schema definitions | `wasmagent-protocol` (`@wasmagent/protocol`) |
+| Runtime AEP evidence signing / emitter | `wasmagent-js` (`@wasmagent/aep`) |
 | Enterprise audit reports, regulatory control mapping | `open-agent-audit` |
 | Trust Passport specification and issuance | `open-agent-audit` (`@openagentaudit/passport`) |
 | Evidence admission score, benchmark contamination statistics (dataset-level) | `trace-pipeline` (`eval_trust`) |
