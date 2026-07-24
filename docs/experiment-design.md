@@ -83,14 +83,39 @@ Any evaluation run can be replayed in a clean environment and produce identical 
 mvp_success:
   replay_reliability: ">= 99%"
   flaky_rate: "<= 1%"
-  fixed_vs_fresh_rank_instability: "visibly non-zero (Kendall tau < 0.9)"
+  fixed_vs_fresh_rank_instability: "statistically nonzero (p < 0.05)"
   adversarial_fragility_detected: true
   confirmed_counterexamples: ">= 20"
   duplicate_counterexample_rate: "<= 30%"
   invalid_generated_task_rate: "<= 10%"
-  human_reviewed_engineering_relevance: ">= 3/5"
+  human_reviewed_engineering_relevance: ">= 3/5 average"
   full_run_cost: "completable within individual developer budget"
 ```
+
+---
+
+## Generator Admissibility Gate
+
+Every generated task must pass this gate before entering the main evaluation set. Tasks failing any condition are rejected.
+
+```yaml
+admissibility_gate:
+  deterministic: true                        # same input → same output always
+  reference_solvable: true                   # reference solver must pass it
+  duplicate_distance_above_threshold: true   # not too similar to existing tasks
+  no_ambiguous_policy: true                  # no "reasonable merge" / "best practice" language
+  cost_within_limit: true                    # within defined token/time budget
+  engineering_relevance_min: true            # maps to real config/payload/schema scenario
+```
+
+Each gate condition maps to a check in `packages/core/src/admissibility.ts`:
+
+- **deterministic** — `checkDeterministic()`: re-runs generation with identical seed; output must be byte-identical.
+- **reference_solvable** — `checkReferenceSolvable()`: the reference (correct) solver must pass the task.
+- **duplicate_distance_above_threshold** — `checkDuplicateDistance()`: task signature must exceed a minimum distance from all existing task signatures.
+- **no_ambiguous_policy** — `checkNoAmbiguousPolicy()`: task description and spec must not contain subjective language that admits multiple valid outputs.
+- **cost_within_limit** — `checkCostWithinLimit()`: generation and verification must stay within the defined token/time budget.
+- **engineering_relevance_min** — `checkEngineeringRelevance()`: task must map to a realistic config, payload, or schema scenario.
 
 ---
 
