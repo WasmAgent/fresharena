@@ -186,3 +186,24 @@ docs/                  — Planning, milestones, protocol specs
 ## How patrol sweep drives progress
 Patrol reads the checkbox list above. Unchecked items → patrol opens issues.
 Issues with `claude` label → workers implement them → merged → patrol ticks checkbox.
+
+---
+
+## Build Prerequisites (MANDATORY)
+
+**Always run `bun install` first** before any typecheck, build, or test command.
+`turbo` is a bun devDependency and is NOT on the system PATH — all `bun run *` commands
+fail with `turbo: command not found` without it.
+
+```bash
+bun install
+bun run typecheck
+bun run build
+bun run test
+```
+
+## Documentation Files Are Required Deliverables
+
+When an issue requires a `docs/<name>.md` file, **creating that file IS the implementation**.
+The self-review gate checks for required files listed in the issue acceptance criteria.
+Do not submit a PR that implements code changes while omitting a required docs file.
