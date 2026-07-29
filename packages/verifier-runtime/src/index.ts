@@ -1,18 +1,20 @@
-export type { NormalizeConstraints } from '@fresharena/faep-schema';
-export type { DiffPatchConstraints } from '@fresharena/faep-schema';
-export type { MergeConstraints } from '@fresharena/faep-schema';
-export type { SchemaMigrationConstraints } from '@fresharena/faep-schema';
-export { normalize } from './normalize.js';
-export { diff, apply } from './diff_patch.js';
+export type {
+  DiffPatchConstraints,
+  MergeConstraints,
+  NormalizeConstraints,
+  SchemaMigrationConstraints,
+} from '@fresharena/faep-schema';
+export { sha256Hex, sha256OfString, shortHash, stableStringify } from './crypto.js';
+export { apply, diff } from './diff_patch.js';
 export { merge } from './merge.js';
+export { normalize } from './normalize.js';
 export { migrate } from './schema_migration.js';
 export {
-  verify,
   expectedHashFor,
   type VerifyInput,
   type VerifyResult,
+  verify,
 } from './verify.js';
-export { sha256Hex, sha256OfString, shortHash, stableStringify } from './crypto.js';
 
 export interface VerifierPackage {
   id: string;

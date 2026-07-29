@@ -1,5 +1,5 @@
-import { parseNormalizeConstraints } from '@fresharena/faep-schema';
 import type { EvalTrack, SolverMetadata, TaskSpec } from '@fresharena/faep-schema';
+import { parseNormalizeConstraints } from '@fresharena/faep-schema';
 import { normalize, shortHash } from '@fresharena/verifier-runtime';
 
 /**

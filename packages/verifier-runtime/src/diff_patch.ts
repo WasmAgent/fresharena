@@ -35,7 +35,7 @@ function escapePathSegment(segment: string): string {
   return segment.replace('~', '~0').replace('/', '~1');
 }
 
-function joinPath(base: string[], key: string | number): string[] {
+function _joinPath(base: string[], key: string | number): string[] {
   const escaped = typeof key === 'number' ? key.toString() : escapePathSegment(key);
   return [...base, escaped];
 }

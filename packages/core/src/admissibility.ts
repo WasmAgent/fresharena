@@ -1,8 +1,8 @@
 import {
   type AdmissibilityResult,
   NormalizeConstraintsSchema,
-  type TaskSpec,
   parseNormalizeConstraints,
+  type TaskSpec,
 } from '@fresharena/faep-schema';
 import { normalize, stableStringify } from '@fresharena/verifier-runtime';
 
