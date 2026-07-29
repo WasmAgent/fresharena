@@ -465,8 +465,8 @@ export async function generateReport(opts: ReportOptions): Promise<ReportResult>
 
 export {
   computeSolverStats,
-  rankSolversByPassRate,
   isFreshTask,
-  type SolverStats,
   type ReportData,
+  rankSolversByPassRate,
+  type SolverStats,
 };

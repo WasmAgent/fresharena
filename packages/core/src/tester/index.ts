@@ -1,5 +1,4 @@
-import type { NormalizeConstraints, TaskSpec } from '@fresharena/faep-schema';
-import type { Counterexample } from '@fresharena/faep-schema';
+import type { Counterexample, NormalizeConstraints, TaskSpec } from '@fresharena/faep-schema';
 import { normalize, sha256Hex, shortHash, stableStringify } from '@fresharena/verifier-runtime';
 import fc from 'fast-check';
 import { Rng } from '../rng.js';
@@ -45,10 +44,7 @@ export interface IdempotenceResult {
  * Deterministic: the fast-check seed is fixed and reproducible.
  */
 export function runIdempotenceProperty(
-  opts: {
-    numRuns?: number;
-    seed?: number;
-  } = {},
+  opts: { numRuns?: number; seed?: number } = {},
 ): IdempotenceResult {
   const numRuns = opts.numRuns ?? DEFAULT_NUM_RUNS;
   const seed = opts.seed ?? 0xfae01;

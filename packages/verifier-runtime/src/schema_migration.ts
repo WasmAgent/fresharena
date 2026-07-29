@@ -1,4 +1,3 @@
-import type { SchemaMigrationConstraints } from '@fresharena/faep-schema';
 import { parseSchemaMigrationConstraints } from '@fresharena/faep-schema';
 import { sha256Hex } from './crypto.js';
 
