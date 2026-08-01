@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "pool_version": "0.1.0",
   "description": "Public Immunity Pool v0 — confirmed counterexamples across baseline solvers",
-  "generated_at": "2026-07-07T21:43:57.895Z",
+  "generated_at": "2026-08-01T04:55:25.436Z",
   "root_seed": "fresharena-immunity-pool-v0",
   "solver_ids": [
     "weak",
