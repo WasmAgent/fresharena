@@ -41,7 +41,7 @@ Core research question: *Do solvers rank significantly differently on fixed vs. 
 ### Allowed cross-repo patterns
 - Export FAEP records to `open-agent-audit` via the audit adapter (Phase 3 roadmap item).
 - Export evaluation traces to `trace-pipeline` via the provenance export adapter.
-- Consume `agent-trust-infra` specs via versioned adapter, never copy schema definitions locally.
+- Consume `wasmagent-protocol` schemas via versioned adapter, never copy schema definitions locally. (`agent-trust-infra` is archived; its AgentBOM/MCP Posture implementation lives in `agentbom`.)
 - Per-task contamination likelihood (FAEP annotation, issue #96) is FreshArena scope; dataset-level contamination statistics belong in `trace-pipeline`.
 - New task worlds require: a named research hypothesis, baseline, and gate condition.
 - Platform features (hosted arena, marketplace) remain research infrastructure; they must not replicate the audit or runtime capabilities owned by other repos.
