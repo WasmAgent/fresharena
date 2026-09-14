@@ -18,6 +18,9 @@ on:
         required: true
         default: "json-transform"
 
+permissions:
+  contents: read
+
 jobs:
   run:
     name: Run experiment (${{ inputs.track }} / ${{ inputs.world }})
