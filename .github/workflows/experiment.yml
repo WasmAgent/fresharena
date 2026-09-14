@@ -35,15 +35,27 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Run evaluation
-        run: |
-          bun run fresharena run \
-            --track ${{ inputs.track }} \
-            --world ${{ inputs.world }} \
-            --output records/run-${{ github.run_id }}.jsonl
+      # ORG-FA-01/02: free-text workflow inputs are validated against the
+      # registered worlds and passed via env + quoted expansion — they can
+      # never alter the shell program or escape the worlds directory.
+      - name: Validate world id
         env:
+          WORLD: ${{ inputs.world }}
+        run: |
+          VALIDATED=$(bun scripts/validate-world-id.mjs "$WORLD")
+          echo "WORLD=$VALIDATED" >> "$GITHUB_ENV"
+
+      - name: Run evaluation
+        env:
+          TRACK: ${{ inputs.track }}
+          WORLD: ${{ inputs.world }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          bun run fresharena run \
+            --track "$TRACK" \
+            --world "$WORLD" \
+            --output "records/run-${GITHUB_RUN_ID}.jsonl"
 
       - name: Generate report
         run: bun run fresharena report records/run-${{ github.run_id }}.jsonl
