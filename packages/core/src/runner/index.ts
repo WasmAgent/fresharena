@@ -165,10 +165,7 @@ export async function runEval(opts: EvalRunOptions): Promise<EvalRunResult> {
  * Deterministic: the same root seed + solver id regenerate the task and
  * reproduce every score component.
  */
-export async function rerunFromRecord(
-  rootSeed: string,
-  solverId: string,
-): Promise<EvalRunResult> {
+export async function rerunFromRecord(rootSeed: string, solverId: string): Promise<EvalRunResult> {
   const { task } = generateTaskAt(rootSeed, 0);
   const metadata = solverMetadata(solverId);
   return runEval({
