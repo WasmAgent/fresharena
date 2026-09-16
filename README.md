@@ -24,18 +24,49 @@ If yes, FreshArena demonstrates that fixed benchmarks hide real capability gaps 
 
 ---
 
-## Quick Start
+## Quick Start (Phase-0 vertical slice)
+
+The `run` / `replay` / `verify` commands below are implemented end-to-end for
+the non-LLM `json-transform` world — fully deterministic, no API key required
+(FA-QUICK-01..06; CI runs exactly these commands from a clean checkout).
 
 ```bash
-# Run with non-LLM baseline (no API key required)
-fresharena run examples/non-llm-baseline
+# 1. Run the reference solver against a generated task (no API key required);
+#    writes a FAEP record to records/samples/sample-run.jsonl
+fresharena run --world worlds/json-transform --solver reference --output records/samples/sample-run.jsonl
 
-# Replay a recorded evaluation
+# 2. Replay the recorded evaluation and verify score reproducibility
+#    (the root seed is recovered from the record's replay command)
 fresharena replay records/samples/sample-run.jsonl
 
-# Verify the JSON transform world
+# 3. Verify the integrity of the json-transform world
+#    (manifest + families + admissible generation + verifier package)
 fresharena verify worlds/json-transform
 ```
+
+### What this slice does and does not do
+
+Done (verified by CI):
+- deterministic task generation from a root seed (`random-baseline` generator);
+- solvers `reference`, `weak`, `buggy-A`, `buggy-B`, `buggy-C` on the
+  `non_llm` track (pure functions over `normalize`);
+- FAEP record emission (schema-validated, `faep/v0.1`), including hidden-case
+  verification and the optional property-differential adversarial tester
+  (`--adversarial`);
+- deterministic replay with score-divergence detection.
+
+Planned — explicitly NOT implemented yet:
+
+| Command / capability | Status |
+|---|---|
+| `fresharena report` | stub (packages/reporter) — exits 1 |
+| model-fixed / model-open / budget-normalized tracks | planned (requires LLM providers) |
+| distributed runners, Immunity Pool integration | planned |
+
+> The score semantics of this slice are documented in
+> `packages/core/src/runner/index.ts` (canonical example + deterministic
+> hidden stream + opt-in adversarial property test; immunity vacuously true
+> until a pool is configured).
 
 ---
 

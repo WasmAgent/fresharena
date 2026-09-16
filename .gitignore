@@ -6,6 +6,7 @@ target/
 *.lock
 !bun.lock
 records/
+# Curated sample record for the Quick Start (issue #133) - committed intentionally.
 !records/samples/
 records/samples/*.jsonl
 !records/samples/sample-run.jsonl
