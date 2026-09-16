@@ -14,8 +14,16 @@ program
   .command('run')
   .description('Run a non-LLM evaluation against a task world and emit a FAEP record')
   .option('--world <path>', 'Path to task world directory', 'worlds/json-transform')
-  .option('--solver <id>', 'Solver id (reference | weak | buggy-A | buggy-B | buggy-C)', 'reference')
-  .option('--output <path>', 'Output path for FAEP record (JSONL)', 'records/samples/sample-run.jsonl')
+  .option(
+    '--solver <id>',
+    'Solver id (reference | weak | buggy-A | buggy-B | buggy-C)',
+    'reference',
+  )
+  .option(
+    '--output <path>',
+    'Output path for FAEP record (JSONL)',
+    'records/samples/sample-run.jsonl',
+  )
   .option('--adversarial', 'Enable the property-differential adversarial tester', false)
   .action(async (opts: { world: string; solver: string; output: string; adversarial: boolean }) => {
     const { runEval } = await import('@fresharena/core');
@@ -53,7 +61,9 @@ program
     console.log(`fresharena run: ${result.passed ? 'PASS' : 'FAIL'} (${result.durationMs} ms)`);
     console.log(`  solver:   ${opts.solver}`);
     console.log(`  task:     ${result.record.task.id}`);
-    console.log(`  canonical_pass=${s.canonical_pass} hidden_pass=${s.hidden_pass} adversarial_pass=${s.adversarial_pass}`);
+    console.log(
+      `  canonical_pass=${s.canonical_pass} hidden_pass=${s.hidden_pass} adversarial_pass=${s.adversarial_pass}`,
+    );
     console.log(`  record:   ${opts.output}`);
     console.log(`  replay:   ${result.record.replay.command}`);
     if (!result.passed) process.exit(1);
@@ -75,7 +85,9 @@ program
     });
     console.log(`fresharena replay: ${result.matches ? 'REPRODUCIBLE' : 'DIVERGED'}`);
     if (result.matches) {
-      console.log(`  score: canonical_pass=${result.replayedScore.canonical_pass} hidden_pass=${result.replayedScore.hidden_pass}`);
+      console.log(
+        `  score: canonical_pass=${result.replayedScore.canonical_pass} hidden_pass=${result.replayedScore.hidden_pass}`,
+      );
     } else {
       for (const d of result.divergences) console.log(`  divergence: ${d}`);
     }
@@ -107,7 +119,11 @@ program
     // Admissibility: generate a small deterministic batch from the first
     // family and confirm every candidate passes the admissibility gate.
     const familyId = parsed.families.at(0)!.id!;
-    const report = generateTasks({ family: familyId as never, count: 5, rootSeed: familyId }).report;
+    const report = generateTasks({
+      family: familyId as never,
+      count: 5,
+      rootSeed: familyId,
+    }).report;
 
     const verifierDir = join(world, 'verifier');
     const hasVerifier = existsSync(verifierDir);
@@ -122,9 +138,13 @@ program
 
 program
   .command('report')
-  .description('Generate an HTML report from one or more FAEP records (planned — not yet implemented)')
+  .description(
+    'Generate an HTML report from one or more FAEP records (planned — not yet implemented)',
+  )
   .action(async () => {
-    console.error('fresharena report: planned — see packages/reporter (Phase 0 follow-up, issue #133 documents the slice boundary)');
+    console.error(
+      'fresharena report: planned — see packages/reporter (Phase 0 follow-up, issue #133 documents the slice boundary)',
+    );
     process.exit(1);
   });
 
